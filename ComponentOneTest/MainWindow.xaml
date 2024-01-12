@@ -1,0 +1,80 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ComponentOneTest"
+        xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml" x:Class="ComponentOneTest.MainWindow"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <DockPanel LastChildFill="True">
+        <Button Content="Do" DockPanel.Dock="Bottom" Click="Button_Click"/>
+
+
+        
+        
+        <c1:C1RichTextBoxRibbon VerticalAlignment="Top" RichTextBox="{Binding ElementName=c1RichTextBox1}" 
+                                DockPanel.Dock="Top" >
+            <c1:RibbonTabItem Header="Home">
+                <c1:RibbonGroup Header="Edit">
+                    <c1:C1PasteTool/>
+                    <c1:C1CutTool/>
+                    <c1:C1UndoTool/>
+                    <c1:C1ToolSeparator/>
+                    <c1:C1CopyTool/>
+                    <c1:C1RedoTool/>
+                    <c1:C1FormatPainterTool/>
+                </c1:RibbonGroup>
+                <c1:RibbonGroup Header="Font">
+                    <c1:C1ToolStrip>
+                        <c1:C1FontFamilyTool/>
+                        <c1:C1FontSizeTool/>
+                        <c1:C1IncreaseFontSizeTool/>
+                        <c1:C1DecreaseFontSizeTool/>
+                    </c1:C1ToolStrip>
+                    <c1:C1ToolStrip>
+                        <c1:C1BoldTool/>
+                        <c1:C1ItalicTool/>
+                        <c1:C1UnderlineTool/>
+                        <c1:C1StrikethroughTool/>
+                        <c1:C1ToolSeparator/>
+                        <c1:C1ChangeCaseTool/>
+                        <c1:C1SuperscriptTool/>
+                        <c1:C1SubscriptTool/>
+                        <c1:C1ToolSeparator/>
+                        <c1:C1FontColorTool/>
+                        <c1:C1TextHighlightTool/>
+                    </c1:C1ToolStrip>
+                </c1:RibbonGroup>
+                <c1:RibbonGroup Header="Paragraph">
+                    <c1:C1ToolStrip>
+                        <c1:C1LeftAlignTool/>
+                        <c1:C1CenterAlignTool/>
+                        <c1:C1RightAlignTool/>
+                        <c1:C1JustifyTool/>
+                        <c1:C1ToolSeparator/>
+                        <c1:C1BulletsTool/>
+                        <c1:C1NumberingTool/>
+                        <c1:C1ToolSeparator/>
+                        <c1:C1TextWrappingTool/>
+                    </c1:C1ToolStrip>
+                    <c1:C1ToolStrip>
+                        <c1:C1ParagraphColorTool/>
+                        <c1:C1BorderMenuTool/>
+                        <c1:C1MarginTool/>
+                        <c1:C1PaddingTool/>
+                        <c1:C1ToolSeparator/>
+                        <c1:C1LineSpacingTool/>
+                    </c1:C1ToolStrip>
+                </c1:RibbonGroup>
+                <c1:RibbonGroup Header="Insert">
+                    <c1:C1InsertImageTool/>
+                    <c1:C1InsertSymbolTool/>
+                </c1:RibbonGroup>
+                
+            </c1:RibbonTabItem>
+            
+        </c1:C1RichTextBoxRibbon>
+        <c1:C1RichTextBox DockPanel.Dock="Top" Name="c1RichTextBox1" />
+    </DockPanel>
+</Window>
