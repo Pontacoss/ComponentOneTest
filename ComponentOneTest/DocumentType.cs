@@ -82,7 +82,9 @@ namespace ComponentOneTest
             count++;
             Text = "[[" + name + ":"+count+"]]";
             IsEditable = false;
+            //VerticalAlignment = C1VerticalAlignment.Super;
             Background= new SolidColorBrush(Colors.Pink);
+            //BorderThickness = new Thickness(1);
             Padding=new Thickness(0,0,0,0);
         }
     }

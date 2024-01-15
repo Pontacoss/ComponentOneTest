@@ -1,19 +1,8 @@
 ﻿using C1.WPF.RichTextBox;
 using C1.WPF.RichTextBox.Documents;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace ComponentOneTest
 {
@@ -26,7 +15,9 @@ namespace ComponentOneTest
         public Window1()
         {
             InitializeComponent();
+
             _rtb = this.c1RichTextBox1;
+            _rtb.ElementMouseLeftButtonDown += rtb_ElementMouseLeftButtonDown;
             _rtb.Text = "＜試験仕様＞ \r\nHCN-P827： 6.1項を参照すること。" +
                 " \r\n\r\n＜所内向け追加指示および注意事項＞ \r\n" +
                 "銘板、表記は外形図：H7R2149と一致していることを確認する。" +
@@ -42,56 +33,92 @@ namespace ComponentOneTest
 
         }
 
+        void rtb_ElementMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (Keyboard.Modifiers != 0)
+            {
+                // コントロール座標で位置を取得します
+                var pt = e.GetPosition(_rtb);
+                // その位置のテキストポインタを取得します
+                var pointer = _rtb.GetPositionFromPoint(pt);
+                // ポインタが C1Run をポイントしていることを確認します
+                var run = pointer.Element as C1Run;
+                if (run != null)
+                {
+                    // C1Run 内の単語を取得します
+                    var text = run.Text;
+                    var start = pointer.Offset;
+                    var end = pointer.Offset;
+                    while (start > 0 && char.IsLetterOrDigit(text, start - 1))
+                        start--;
+                    while (end < text.Length - 1 && char.IsLetterOrDigit(text, end + 1))
+                        end++;
+                    // クリックされたランの太字プロパティを切り替えます
+                    var word = new C1TextRange(pointer.Element, start, end - start + 1);
+                    word.FontWeight =
+                      word.FontWeight.HasValue && word.FontWeight.Value == FontWeights.Bold
+                        ? FontWeights.Normal
+                      : FontWeights.Bold;
+                    word.Foreground =
+                        word.Foreground == Brushes.Crimson
+                        ? Brushes.Black
+                        : Brushes.Crimson;
+                }
+            }
+        }
+
         private void InsertParameter_Click(object sender, RoutedEventArgs e)
         {
-            C1TextRange text = this.c1RichTextBox1.Selection;
+            C1TextRange selectText = this.c1RichTextBox1.Selection;
             //FontWeight? fw = this.c1RichTextBox1.Selection.FontWeight;
             //this.c1RichTextBox1.Selection.FontWeight = fw.HasValue && fw.Value == FontWeights.Bold
             //      ? FontWeights.Normal
             //      : FontWeights.Bold;
 
-            var stat = text.Start;
-            var statOffset = text.Start.Offset;
+            var stat = selectText.Start;
             var statRun = stat.Element as C1Run;
+
             if (statRun == null) return;
-            var statRunIndex = statRun.Index;
 
             var parent = statRun.Parent;
-            if (0 < statOffset && statOffset < statRun.Text.Length)
+            if (0 < stat.Offset && stat.Offset < statRun.Text.Length)
             {
-                parent.Children.Insert(statRunIndex + 1, new TSRParameter("パラメータ"));
-                parent.Children.Insert(statRunIndex + 2, new C1Run()
+                parent.Children.Insert(statRun.Index + 1, new TSRParameter("パラメータ"));
+                parent.Children.Insert(statRun.Index + 2, new C1Run()
                 {
-                    Text = statRun.Text.Substring(statOffset, statRun.Text.Length - statOffset)
+                    Text = statRun.Text.Substring(stat.Offset, statRun.Text.Length - stat.Offset)
                 });
-                statRun.Text = statRun.Text.Substring(0, statOffset);
+                statRun.Text = statRun.Text.Substring(0, stat.Offset);
             }
-            else if (statOffset == 0)
+            else if (stat.Offset == 0)
             {
-                parent.Children.Insert(statRunIndex, new TSRParameter("パラメータ"));
+                parent.Children.Insert(statRun.Index, new TSRParameter("パラメータ"));
             }
-            else if (statOffset == statRun.Text.Length)
+            else if (stat.Offset == statRun.Text.Length)
             {
-                parent.Children.Insert(statRunIndex + 1, new TSRParameter("パラメータ"));
+                parent.Children.Insert(statRun.Index + 1, new TSRParameter("パラメータ"));
             }
         }
 
         private void ShowParameterList_Click(object sender, RoutedEventArgs e)
         {
-            dg1.ItemsSource = null;
-            
             var list = new List<TSRParameter>();
 
-            foreach (var obj in _rtb.Document.Blocks)
+            foreach (var paragraph in _rtb.Document.Children)
             {
-                foreach (var param in obj.Children.OfType<TSRParameter>())
+                
+                foreach (var param in paragraph.Children.OfType<TSRParameter>())
                 {
+                    var index = paragraph.Index;
+                    var index2=param.Index;
                     list.Add(param);
                 }
             }
-
             dg1.ItemsSource = list;
-            tb1.Text=_rtb.Text;
+            tb1.Text = _rtb.Html
+                .Replace(">", ">\n")
+                .Replace(".c","\n.c");
+            tb2.Text = _rtb.Text;
         }
     }
 }

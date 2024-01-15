@@ -6,15 +6,37 @@
         xmlns:local="clr-namespace:ComponentOneTest"
         xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml" x:Class="ComponentOneTest.Window1"
         mc:Ignorable="d"
-        Title="Window1" Height="600" Width="1200"
+        Title="Window1" Height="800" Width="1500"
     WindowStartupLocation="CenterScreen">
     <DockPanel LastChildFill="True">
+        <c1:C1RichTextBoxToolStrip VerticalAlignment="Top" DockPanel.Dock="Top" RichTextBox="{Binding ElementName=c1RichTextBox1}">
+            <c1:C1UndoTool/>
+            <c1:C1RedoTool/>
+            <c1:C1FontFamilyTool/>
+            <c1:C1FontSizeTool/>
+            <c1:C1PasteTool/>
+            <c1:C1CutTool/>
+            <c1:C1CopyTool/>
+            <c1:C1ToolSeparator/>
+            <c1:C1BoldTool/>
+            <c1:C1ItalicTool/>
+            <c1:C1UnderlineTool/>
+            <c1:C1StrikethroughTool/>
+            <c1:C1ToolSeparator/>
+            <c1:C1SuperscriptTool/>
+            <c1:C1SubscriptTool/>
+            <c1:C1NumberingTool/>
+            <c1:C1BulletsTool/>
+            <c1:C1ToolSeparator/>
+            <c1:C1LeftAlignTool/>
+            <c1:C1CenterAlignTool/>
+            <c1:C1RightAlignTool/>
+            <c1:C1JustifyTool/>
+        </c1:C1RichTextBoxToolStrip>
+
         <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
             <Button x:Name="InsertParameter" Content="InsParam" Width="150" Click="InsertParameter_Click"/>
             <Button x:Name="ShowParameterList" Content="ParamList" Width="150" Click="ShowParameterList_Click"/>
-
-
-
         </StackPanel>
         <Grid >
             <Grid.ColumnDefinitions>
@@ -28,10 +50,19 @@
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <DataGrid Name="dg1" Grid.Row="0"/>
-                
-                <TextBox Name="tb1" Grid.Row="1" ScrollViewer.HorizontalScrollBarVisibility="Auto"
-                         ScrollViewer.VerticalScrollBarVisibility="Auto"/>
+                <TabControl Grid.Row="1" TabStripPlacement="Bottom">
+                        <TabItem Header="Html">
+                    <TextBox Name="tb1" ScrollViewer.HorizontalScrollBarVisibility="Auto"
+         ScrollViewer.VerticalScrollBarVisibility="Auto"/>
+                    </TabItem>
+                    <TabItem Header="Text">
+                        <TextBox Name="tb2" ScrollViewer.HorizontalScrollBarVisibility="Auto"
+ScrollViewer.VerticalScrollBarVisibility="Auto"/>
+                    </TabItem>
+                </TabControl>
             </Grid>
+            
         </Grid>
+        
     </DockPanel>
 </Window>
