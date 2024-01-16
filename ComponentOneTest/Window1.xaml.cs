@@ -17,6 +17,7 @@ namespace ComponentOneTest
             InitializeComponent();
 
             _rtb = this.c1RichTextBox1;
+            
             _rtb.ElementMouseLeftButtonDown += rtb_ElementMouseLeftButtonDown;
             _rtb.Text = "＜試験仕様＞ \r\nHCN-P827： 6.1項を参照すること。" +
                 " \r\n\r\n＜所内向け追加指示および注意事項＞ \r\n" +
@@ -106,11 +107,8 @@ namespace ComponentOneTest
 
             foreach (var paragraph in _rtb.Document.Children)
             {
-                
                 foreach (var param in paragraph.Children.OfType<TSRParameter>())
                 {
-                    var index = paragraph.Index;
-                    var index2=param.Index;
                     list.Add(param);
                 }
             }
