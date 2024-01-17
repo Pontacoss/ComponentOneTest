@@ -28,22 +28,39 @@ namespace ComponentOneTest
             var table = new C1Table();
             var properties = typeof(T).GetProperties();
 
+            //var columnNamesProperty = typeof(T).GetProperty("ColumnNames");
+            //var columnNames =  columnNamesProperty?.GetValue(list[0]) as List<string>;
+
             // カラムの作成
             for (int i = 0; i < properties.Count(); i++)
             {
                 table.Columns.Add(new C1TableColumn());
             }
+            //if (columnNames == null) return null;
+            //foreach (var col in columnNames)
+            //{
+            //    table.Columns.Add(new C1TableColumn());
+            //}
 
             // タイトル行の生成
             var titleRow=new C1TableRow();
-            foreach(var property in properties)
+            foreach (var property in properties)
             {
-                var cell=CreateCell(property.Name);
-                cell.TextAlignment=C1TextAlignment.Center;
+                var cell = CreateCell(property.Name);
+                cell.TextAlignment = C1TextAlignment.Center;
                 cell.Background = new SolidColorBrush(Colors.LightGray);
                 titleRow.Children.Add(cell);
             }
             table.Children.Add(titleRow);
+
+            //foreach(var col in columnNames)
+            //{
+            //    var cell = CreateCell(col);
+            //    cell.TextAlignment = C1TextAlignment.Center;
+            //    cell.Background = new SolidColorBrush(Colors.LightGray);
+            //    titleRow.Children.Add(cell);
+            //}
+            //table.Children.Add(titleRow);
 
             // データ行の生成
             foreach (var entity in list)
@@ -52,7 +69,7 @@ namespace ComponentOneTest
                 foreach (var prop in properties)
                 {
                     var valueObj = prop.GetValue(entity);
-                    var value = valueObj != null ? valueObj.ToString() : "";
+                    var value = valueObj?.ToString();
                     valueRow.Children.Add(CreateCell(value));
                 }
                 table.Children.Add(valueRow);
@@ -61,6 +78,7 @@ namespace ComponentOneTest
             // テーブル設定
             table.BorderCollapse = true;
             table.TableAlignment=C1TextAlignment.Center;
+            table.Padding=new Thickness(0);
 
             return table;
         }
