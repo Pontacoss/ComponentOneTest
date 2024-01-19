@@ -1,8 +1,10 @@
 ﻿using C1.WPF.RichTextBox;
 using C1.WPF.RichTextBox.Documents;
+using System.IO;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace ComponentOneTest
 {
@@ -112,10 +114,12 @@ namespace ComponentOneTest
                     list.Add(param);
                 }
             }
+
             dg1.ItemsSource = list;
             tb1.Text = _rtb.Html
                 .Replace(">", ">\n")
                 .Replace(".c","\n.c");
+            tb1.TextWrapping = TextWrapping.Wrap;
             tb2.Text = _rtb.Text;
         }
     }
