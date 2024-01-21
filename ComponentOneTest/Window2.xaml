@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ComponentOneTest"
+        xmlns:local2="clr-namespace:ComponentOneTest.ComponentOne.RichTextBox"
         xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml" x:Class="ComponentOneTest.Window2"
         mc:Ignorable="d"
         Title="Window2" Height="800" Width="1500"
@@ -164,6 +165,26 @@
                 </c1:RibbonGroup>
             </c1:RibbonTabItem>
         </c1:C1RichTextBoxRibbon>
-        <c1:C1RichTextBox Name="rtb"/>
+        <StackPanel Orientation="Vertical" DockPanel.Dock="Right" Width="300">
+            <TreeView Name="tv1" Height="300" >
+                <TreeView.ItemTemplate>
+                    <HierarchicalDataTemplate DataType="local2:HeaderContainer"
+                                              ItemsSource="{Binding Children}">
+                        <TextBlock Text="{Binding Name}"/>
+                    </HierarchicalDataTemplate>
+                    
+                </TreeView.ItemTemplate>
+            </TreeView>
+            <TreeView Name="tv2" Height="300" >
+                <TreeView.ItemTemplate>
+                    <HierarchicalDataTemplate DataType="local2:HeaderContainer"
+                                  ItemsSource="{Binding Children}">
+                        <TextBlock Text="{Binding Name}"/>
+                    </HierarchicalDataTemplate>
+
+                </TreeView.ItemTemplate>
+            </TreeView>
+        </StackPanel>
+        <c1:C1RichTextBox Name="rtb" DockPanel.Dock="Bottom"/>
     </DockPanel>
 </Window>
