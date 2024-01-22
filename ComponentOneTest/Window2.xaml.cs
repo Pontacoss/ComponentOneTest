@@ -1,8 +1,8 @@
 ﻿using C1.WPF.RichTextBox;
 using C1.WPF.RichTextBox.Documents;
 using ComponentOneTest.ComponentOne.RichTextBox;
+using ComponentOneTest.Entities;
 using System.Windows;
-using System.Windows.Documents;
 
 namespace ComponentOneTest
 {
@@ -13,7 +13,7 @@ namespace ComponentOneTest
 
         public TreeViewData(HeaderContainer header)
         {
-            Name = header.Name;
+            Name = header.Value;
 
 
             //foreach (var child in header.GetChildren())

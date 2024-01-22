@@ -1,6 +1,6 @@
 ﻿using C1.WPF.RichTextBox.Documents;
 using System.Windows;
-using System.Windows.Documents;
+using ComponentOneTest.Entities;
 using System.Windows.Media;
 
 namespace ComponentOneTest.ComponentOne.RichTextBox
@@ -87,8 +87,6 @@ namespace ComponentOneTest.ComponentOne.RichTextBox
 
         public static C1Table CreateTable(TableEntity table)
         {
-
-
             int rowHeaderDepth = GetHeaderDepth(table.RowHeaders);
             int rowHeaderWidth = GetHeaderWidth(table.RowHeaders);
 
@@ -98,7 +96,7 @@ namespace ComponentOneTest.ComponentOne.RichTextBox
 
             var c1Table = new C1Table();
             // カラムの作成
-            for (int i = 0; i < rowHeaderDepth+columnHeaderWidth; i++)
+            for (int i = 0; i < rowHeaderDepth + columnHeaderWidth; i++)
             {
                 c1Table.Columns.Add(new C1TableColumn());
             }
@@ -116,35 +114,24 @@ namespace ComponentOneTest.ComponentOne.RichTextBox
                         cell.Background = new SolidColorBrush(Colors.LightGray);
                         cell.RowSpan = columnHeaderDepth;
                         titleRow.Children.Add(cell);
-
                     }
                 }
 
                 var list = new List<HeaderContainer>();
+                list.AddRange(GetLevelList(table.ColumnHeaders, i));
 
-                
-                  list.AddRange(GetLevelList(table.ColumnHeaders, i));
-                
-
-
-
-
-
-                foreach(var col in list)
+                foreach (var col in list)
                 {
-                    var cell = CreateCell(col.Name);
+                    var cell = CreateCell(col.Value);
                     cell.TextAlignment = C1TextAlignment.Center;
                     cell.Background = new SolidColorBrush(Colors.LightGray);
                     cell.ColumnSpan = GetEndNode(col);
                     titleRow.Children.Add(cell);
                 }
                 c1Table.Children.Add(titleRow);
-
-
             }
 
             c1Table.BorderCollapse = true;
-
             return c1Table;
         }
 
@@ -261,10 +248,10 @@ namespace ComponentOneTest.ComponentOne.RichTextBox
         public List<HeaderContainer> Children { get; } = new List<HeaderContainer>();
         private HeaderEntity _headerEntity;
         
-        public string Name => _headerEntity.Name;
         public int Level =>_headerEntity.Level;
         public int Id => _headerEntity.Id;
         public int Parent => _headerEntity.Parent;
+        public string Value => _headerEntity.Value;
 
         public HeaderContainer(HeaderEntity headerEntity)
         {
@@ -278,30 +265,33 @@ namespace ComponentOneTest.ComponentOne.RichTextBox
 
         public override string ToString()
         {
-            return Name;
+            return Value;
         }
 
-    }
-
-
-    public sealed class HeaderEntity
-    {
-        public int Id { get; }
-        public int Parent { get; }
-        public string Name { get; } 
-        public int Level { get;  }
-
-        public HeaderEntity(HeaderEntity? parent, int id, string name)
+        public int GetDepth()
         {
-            Id = id;
-
-            Name = name;
-
-            Parent = parent != null ? parent.Id : 0;
-            Level = parent != null ? parent.Level+1 : 0;
-
+            int depth = this.Level;
+            foreach (HeaderContainer child in Children)
+            {
+                depth = Math.Max(depth, child.GetDepth());
+            }
+            return depth+1;
         }
+
+        public int GetWidth()
+        {
+            int width = 0;
+            foreach (HeaderContainer child in Children)
+            {
+                width += child.GetDepth();
+            }
+            return Math.Max(1, width);
+        }
+
     }
+
+
+ 
 
 
 

@@ -4,19 +4,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ComponentOneTest
+namespace ComponentOneTest.Entities
 {
     //public interface ITableData
     //{
     //    static List<string> ColumnName { get; }
     //}
 
-    public sealed class TemplateEntity 
+    public sealed class TemplateEntity
     {
-        public string Clause { get;  }
-        public string TestItem { get;  }
-        public string TypeTest { get;  }
-        public string RoutineTest { get;  }
+        public string Clause { get; }
+        public string TestItem { get; }
+        public string TypeTest { get; }
+        public string RoutineTest { get; }
         public string IECclause { get; }
 
         //static public List<string> ColumnNames
@@ -32,9 +32,9 @@ namespace ComponentOneTest
         //        ];
         //    } 
         //}
-    
 
-        public TemplateEntity(string  testItem,string clause,string typeTest, string routineTest,string iecClause)
+
+        public TemplateEntity(string testItem, string clause, string typeTest, string routineTest, string iecClause)
         {
             TestItem = testItem;
             Clause = clause;

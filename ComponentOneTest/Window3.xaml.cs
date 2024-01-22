@@ -1,20 +1,8 @@
 ﻿using C1.WPF.RichTextBox;
 using C1.WPF.RichTextBox.Documents;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net.Cache;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace ComponentOneTest
 {
@@ -37,7 +25,7 @@ namespace ComponentOneTest
         {
             var img = new BitmapImage();
             img.BeginInit();
-            img.UriSource = new Uri("C:\\Users\\ey28754\\Pictures\\Screenshots\\Oracle.png");
+            img.UriSource = new Uri("");
             img.EndInit();
 
             // Ribbonにある画像取り込み機能で取り込んだImageがある場合
