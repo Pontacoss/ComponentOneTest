@@ -11,6 +11,9 @@ namespace ComponentOneTest
     /// </summary>
     public partial class Window3 : Window
     {
+        C1Length _height;
+        C1Length _width;
+
         public Window3()
         {
             InitializeComponent();
@@ -23,23 +26,22 @@ namespace ComponentOneTest
 
         private void btn1_Click(object sender, RoutedEventArgs e)
         {
-            var img = new BitmapImage();
+            var img = new Image();
             img.BeginInit();
-            img.UriSource = new Uri("");
+            img.Source = new BitmapImage(
+                new Uri(@"C:\Users\ey28754\Pictures\Screenshots\Oracle.png",
+                UriKind.Relative));
             img.EndInit();
 
-            // Ribbonにある画像取り込み機能で取り込んだImageがある場合
-            // そのImageを格納するC1InlineUIContainerからDataTemplateを取得
             DataTemplate? contentTemp =  GetDataTemplate();
 
-            // C1InlineUIContainerを作成しContentにImageを設定しても
-            // ContentTemplateが適切に設定されていないと画像が表示されない。
-            // ContentTemplateの設定の仕方が分からない。
-            // Ribbonの機能を使って取り込んだ画像のDataTemplateをコピーして使えば上手くいく。
+            // 既に取り込んだ画像がある場合、その画像のサイズを読み取って
+            // 同じサイズで画像を追加
             var container = new C1InlineUIContainer
             {
                 Content = img,
-                ContentTemplate = contentTemp != null ? contentTemp : new DataTemplate(typeof(Image))
+                Height = _height,
+                Width = _width,
             };
             
             var paragraph = new C1Paragraph();
@@ -48,7 +50,7 @@ namespace ComponentOneTest
             paragraph.Children.Add(new C1Run());
             rtb.Document.Blocks.Add(paragraph);
 
-            Image.Source = img;
+            //Image.Source = img;
         }
 
         private DataTemplate? GetDataTemplate()
@@ -57,6 +59,8 @@ namespace ComponentOneTest
             {
                 foreach (var item in parag.Children.OfType<C1InlineUIContainer>())
                 {
+                    _height = item.Height;
+                    _width = item.Width;
                     return item.ContentTemplate;
                 }
             }

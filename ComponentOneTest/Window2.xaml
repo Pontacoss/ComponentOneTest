@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ComponentOneTest"
-        xmlns:local2="clr-namespace:ComponentOneTest.ComponentOne.RichTextBox"
+        xmlns:local2="clr-namespace:ComponentOneTest.Serviceis.C1RichTextBox"
         xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml" x:Class="ComponentOneTest.Window2"
         mc:Ignorable="d"
         Title="Window2" Height="800" Width="1500"
@@ -168,18 +168,18 @@
         <StackPanel Orientation="Vertical" DockPanel.Dock="Right" Width="300">
             <TreeView Name="tv1" Height="300" >
                 <TreeView.ItemTemplate>
-                    <HierarchicalDataTemplate DataType="local2:HeaderContainer"
+                    <HierarchicalDataTemplate DataType="local2:ITableHeader"
                                               ItemsSource="{Binding Children}">
-                        <TextBlock Text="{Binding Name}"/>
+                        <TextBlock Text="{Binding}"/>
                     </HierarchicalDataTemplate>
                     
                 </TreeView.ItemTemplate>
             </TreeView>
             <TreeView Name="tv2" Height="300" >
                 <TreeView.ItemTemplate>
-                    <HierarchicalDataTemplate DataType="local2:HeaderContainer"
+                    <HierarchicalDataTemplate DataType="local2:ITableHeader"
                                   ItemsSource="{Binding Children}">
-                        <TextBlock Text="{Binding Name}"/>
+                        <TextBlock Text="{Binding}"/>
                     </HierarchicalDataTemplate>
 
                 </TreeView.ItemTemplate>

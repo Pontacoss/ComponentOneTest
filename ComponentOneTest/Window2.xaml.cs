@@ -1,27 +1,28 @@
 ﻿using C1.WPF.RichTextBox;
 using C1.WPF.RichTextBox.Documents;
-using ComponentOneTest.ComponentOne.RichTextBox;
+using ComponentOneTest.Serviceis.C1RichTextBox;
 using ComponentOneTest.Entities;
 using System.Windows;
+using ComponentOneTest.Servicies.C1RichTextBox;
 
 namespace ComponentOneTest
 {
-    public sealed class TreeViewData
-    {
-        public string Name { get; }
-        public List<TreeViewData> Children { get; } = new();
+    //public sealed class TreeViewData
+    //{
+    //    public string Name { get; }
+    //    public List<TreeViewData> Children { get; } = new();
 
-        public TreeViewData(HeaderContainer header)
-        {
-            Name = header.Value;
+        //public TreeViewData(HeaderContainer header)
+        //{
+        //    Name = header.Value;
 
 
-            //foreach (var child in header.GetChildren())
-            //{
-            //    Children.Add(new TreeViewData(child));
-            //}
-        }
-    }
+        //    //foreach (var child in header.GetChildren())
+        //    //{
+        //    //    Children.Add(new TreeViewData(child));
+        //    //}
+        //}
+    //}
 
     /// <summary>
     /// Window2.xaml の相互作用ロジック
@@ -83,47 +84,17 @@ namespace ComponentOneTest
             //var cell = row.Children[0] as C1TableCell;
             //cell.RowSpan = 2;
 
-            var data1 = GetItemSource(HeaderFake.GetData());
-            var data2 = GetItemSource(HeaderFake.GetData2());
+            var data1 = RichTextBoxTools.GetItemSource(HeaderFake.GetData(2));
+            var data2 = RichTextBoxTools.GetItemSource(HeaderFake.GetData(4));
 
             tv1.ItemsSource = data1;
             tv2.ItemsSource = data2;
 
-            var table = new TableEntity("name", data1, data2);
+            var table = new TableContent("name", data1, data2);
 
             rtb.Document.Blocks.Add(RichTextBoxTools.CreateTable(table));
         }
 
-        private IList<HeaderContainer> GetItemSource(List<HeaderEntity> list)
-        {
-            var source=new List<HeaderContainer>();
-
-            foreach (var entity in list)
-            {
-                var parent = GetParent(source, entity.Parent);
-                if (parent != null)
-                {
-                    parent.Add(new HeaderContainer(entity));
-                }
-                else
-                {
-                    source.Add(new HeaderContainer(entity));
-                }
-            }
-            return source;
-        }
-
-        private HeaderContainer? GetParent(IList<HeaderContainer> list, int parentId)
-        {
-            foreach (var entity in list)
-            {
-                if (entity.Id == parentId) return entity;
-
-                var target= GetParent(entity.Children, parentId);
-
-                if (target != null) return target;
-            }
-            return null;
-        }
+        
     }
 }
