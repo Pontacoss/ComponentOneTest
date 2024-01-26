@@ -9,17 +9,14 @@ namespace ComponentOneTest.Serviceis.C1RichTextBox
             var result = new List<TableHeaderEntity>();
             if (selector == 0)
             {
-               
+
 
                 var entity = new TableHeaderEntity(10, "試験項目\nトルクパターン", true, true);
                 result.Add(entity);
                 result.Add(new TableHeaderEntity(entity, 11, "基準値"));
                 result.Add(new TableHeaderEntity(entity, 12, "公差"));
 
-                //var entity1 = new TableHeaderEntity(20, "試験項目\nトルクパターン", true, true);
-                //result.Add(entity1);
-                result.Add(new TableHeaderEntity(entity, 21, "基準値"));
-                result.Add(new TableHeaderEntity(entity, 22, "公差"));
+
 
             }
             else if (selector == 1)
@@ -43,6 +40,7 @@ namespace ComponentOneTest.Serviceis.C1RichTextBox
                 result.Add(entity5);
                 result.Add(new TableHeaderEntity(entity5, 411, "10"));
                 result.Add(new TableHeaderEntity(entity5, 412, "20"));
+
             }
             else if (selector == 2)
             {

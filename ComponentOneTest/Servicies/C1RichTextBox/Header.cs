@@ -1,37 +1,37 @@
 ﻿using ComponentOneTest.Entities;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace ComponentOneTest.Servicies.C1RichTextBox
 {
-    
-    public sealed class HeaderContainer : ITableHeader
+    public sealed class Header : ITableHeader
     {
         public IList<ITableHeader> Children { get; } = new List<ITableHeader>();
         private TableHeaderEntity _headerEntity;
 
-        public string? Title => _headerEntity.Title;
+        public int Level => _headerEntity.Level;
         public int Id => _headerEntity.Id;
-        public int Level => 0;
-        public bool IsVisibleTitle => _headerEntity.IsTitleVisible;
-        public bool IsMeasurementItem => _headerEntity.IsMeasurementItem;
+        public int Parent => _headerEntity.Parent;
+        public string Value => _headerEntity.Value;
 
-        public HeaderContainer(TableHeaderEntity headerEntity)
+        public Header(TableHeaderEntity headerEntity)
         {
             _headerEntity = headerEntity;
         }
-
+        public override string ToString()
+        {
+            return Value;
+        }
         public void Add(ITableHeader tableHeader)
         {
             Children.Add(tableHeader);
         }
-
-        public override string ToString()
-        {
-            return Title;
-        }
-
         public int GetDepth()
         {
-            int depth = 0;
+            int depth = this.Level;
             foreach (ITableHeader child in Children)
             {
                 depth = Math.Max(depth, child.GetDepth());
@@ -52,6 +52,4 @@ namespace ComponentOneTest.Servicies.C1RichTextBox
             return _headerEntity;
         }
     }
-
-    
 }

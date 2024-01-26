@@ -42,20 +42,26 @@ namespace ComponentOneTest.Serviceis.C1RichTextBox
                     Padding = new Thickness(5, 0, 5, 0)
                 });
 
-            //var combo=new ComboBox();
-            //var list = new List<string>() { "±", "+", "-" };
-            //combo.ItemsSource = list;
-            //var ui = new C1InlineUIContainer()
+            //var comboList = new List<string>()
             //{
-            //    Content = combo
+            //    "±","+","-"
             //};
-            //paragraph.Children.Add(ui);
+
+            //var combo= new ComboBox();
+            //combo.ItemsSource=comboList;
+
+            //var container = new C1InlineUIContainer()
+            //{
+            //    Content= combo
+            //};
+            //paragraph.Children.Add((container));
 
             paragraph.Padding = new Thickness(0);
             cell.Children.Add(paragraph);
             cell.Padding = new Thickness(0);
             cell.RowSpan = rowSpan;
             cell.ColumnSpan = columnSpan;
+            
             return cell;
         }
 
