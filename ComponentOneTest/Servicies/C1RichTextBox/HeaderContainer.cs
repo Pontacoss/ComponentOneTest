@@ -1,9 +1,4 @@
 ﻿using ComponentOneTest.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ComponentOneTest.Servicies.C1RichTextBox
 {
@@ -11,11 +6,12 @@ namespace ComponentOneTest.Servicies.C1RichTextBox
     {
         int Id { get; }
         int Level { get; }
-        
+
         IList<ITableHeader> Children { get; }
         void Add(ITableHeader tableHeader);
         public int GetDepth();
         public int GetWidth();
+        public TableHeaderEntity GetEntity();
     }
     public sealed class HeaderContainer : ITableHeader
     {
@@ -26,6 +22,7 @@ namespace ComponentOneTest.Servicies.C1RichTextBox
         public int Id => _headerEntity.Id;
         public int Level => 0;
         public bool IsVisibleTitle => _headerEntity.IsTitleVisible;
+        public bool IsMeasurementItem => _headerEntity.IsMeasurementItem;
 
         public HeaderContainer(TableHeaderEntity headerEntity)
         {
@@ -60,10 +57,13 @@ namespace ComponentOneTest.Servicies.C1RichTextBox
             }
             return Math.Max(1, width);
         }
-
+        public TableHeaderEntity GetEntity()
+        {
+            return _headerEntity;
+        }
     }
 
-    public sealed class C1TableHeader: ITableHeader
+    public sealed class Header : ITableHeader
     {
         public IList<ITableHeader> Children { get; } = new List<ITableHeader>();
         private TableHeaderEntity _headerEntity;
@@ -73,7 +73,7 @@ namespace ComponentOneTest.Servicies.C1RichTextBox
         public int Parent => _headerEntity.Parent;
         public string Value => _headerEntity.Value;
 
-        public C1TableHeader(TableHeaderEntity headerEntity)
+        public Header(TableHeaderEntity headerEntity)
         {
             _headerEntity = headerEntity;
         }
@@ -92,7 +92,7 @@ namespace ComponentOneTest.Servicies.C1RichTextBox
             {
                 depth = Math.Max(depth, child.GetDepth());
             }
-            return depth ;
+            return depth;
         }
         public int GetWidth()
         {
@@ -102,6 +102,10 @@ namespace ComponentOneTest.Servicies.C1RichTextBox
                 width += child.GetWidth();
             }
             return Math.Max(1, width);
+        }
+        public TableHeaderEntity GetEntity()
+        {
+            return _headerEntity;
         }
     }
 }

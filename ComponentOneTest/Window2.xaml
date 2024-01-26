@@ -165,6 +165,7 @@
                 </c1:RibbonGroup>
             </c1:RibbonTabItem>
         </c1:C1RichTextBoxRibbon>
+        <StackPanel Orientation="Horizontal" DockPanel.Dock="Right" Width="600">
         <StackPanel Orientation="Vertical" DockPanel.Dock="Right" Width="300">
             <TreeView Name="tv1" Height="300" >
                 <TreeView.ItemTemplate>
@@ -181,9 +182,30 @@
                                   ItemsSource="{Binding Children}">
                         <TextBlock Text="{Binding}"/>
                     </HierarchicalDataTemplate>
-
                 </TreeView.ItemTemplate>
             </TreeView>
+        </StackPanel>
+            <StackPanel Orientation="Vertical" DockPanel.Dock="Right" Width="300">
+                <TreeView Name="tv3" Height="300" >
+                    <TreeView.ItemTemplate>
+                        <HierarchicalDataTemplate DataType="local2:ITableHeader"
+                                      ItemsSource="{Binding Children}">
+                            <TextBlock Text="{Binding}"/>
+                        </HierarchicalDataTemplate>
+
+                    </TreeView.ItemTemplate>
+                </TreeView>
+                <TreeView Name="tv4" Height="300" >
+                    <TreeView.ItemTemplate>
+                        <HierarchicalDataTemplate DataType="local2:ITableHeader"
+                          ItemsSource="{Binding Children}">
+                            <TextBlock Text="{Binding}"/>
+                        </HierarchicalDataTemplate>
+                    </TreeView.ItemTemplate>
+                </TreeView>
+                <TextBlock Name="tb1" Width="300" Height="80"/>
+                <Button Name="GetDataButton" Content="GetData" Click="GetDataButton_Click"/>
+            </StackPanel>
         </StackPanel>
         <c1:C1RichTextBox Name="rtb" DockPanel.Dock="Bottom"/>
     </DockPanel>

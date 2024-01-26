@@ -84,17 +84,46 @@ namespace ComponentOneTest
             //var cell = row.Children[0] as C1TableCell;
             //cell.RowSpan = 2;
 
-            var data1 = RichTextBoxTools.GetItemSource(HeaderFake.GetData(2));
-            var data2 = RichTextBoxTools.GetItemSource(HeaderFake.GetData(4));
+            var data1 = RichTextBoxTools.GetItemSource(HeaderFake.GetData(1));
+            var data2 = RichTextBoxTools.GetItemSource(HeaderFake.GetData(0));
 
             tv1.ItemsSource = data1;
             tv2.ItemsSource = data2;
+            var ds =new List<ITableHeader>();
+            var ds1 = data1.ToList();
+            var ds2 = data2.ToList();
+            ds1.ForEach(x => ds.Add(x));
+            ds2.ForEach(x => ds.Add(x));
 
-            var table = new TableContent("name", data1, data2);
+            tv3.ItemsSource = RichTextBoxTools.CreateColumnDataStructure(ds);
+            tv4.ItemsSource = RichTextBoxTools.CreateColumnDataStructure(data2);
 
+            var table = new TableContent("name",data1, data2);
+
+            rtb.Document.Blocks.Add(new C1Paragraph());
             rtb.Document.Blocks.Add(RichTextBoxTools.CreateTable(table));
+            rtb.Document.Blocks.Add(new C1Paragraph());
+
+
         }
 
-        
+        private void GetDataButton_Click(object sender, RoutedEventArgs e)
+        {
+            if( rtb.Selection.Cells.Count()>0)
+            {
+                var cells = rtb.Selection.Cells.ToList();
+                var col = cells[0].Index;
+                var row = cells[0].Parent.Index;
+
+                var parent = cells[0].Parent;
+                // todo
+                int counter =  parent.Children.OfType<DataCell>().Count(x=>x.Index<col);
+                
+
+
+
+                tb1.Text = $"Row:{row},Column:{col}";
+            }
+        }
     }
 }
