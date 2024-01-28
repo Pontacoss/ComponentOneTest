@@ -7,15 +7,15 @@ using System.Threading.Tasks;
 
 namespace ComponentOneTest.Servicies.C1RichTextBox
 {
-    public interface ITableHeader
+    public interface ITsrHeader
     {
         int Id { get; }
         int Level { get; }
 
-        IList<ITableHeader> Children { get; }
-        void Add(ITableHeader tableHeader);
+        IList<ITsrHeader> Children { get; }
+        void Add(ITsrHeader tableHeader);
         public int GetDepth();
-        public int GetWidth();
+        public int GetEndNodesCount();
         public TableHeaderEntity GetEntity();
     }
 }

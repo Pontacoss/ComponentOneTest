@@ -10,37 +10,69 @@ namespace ComponentOneTest.Serviceis.C1RichTextBox
 {
     public static class RichTextBoxTools
     {
-        private static C1TableCell CreateCell(string? name)
+        private static C1TableCell CreateCell(string? name,C1TableCell cell)
         {
-            var cell = new C1TableCell();
             cell.BorderThickness = new Thickness(1);
             var paragraph = new C1Paragraph();
             paragraph.Children.Add(
                 new C1Run()
                 {
                     Text = name,
-                    Padding = new Thickness(5, 0, 5, 0)
+                    Padding = new Thickness(0, 0, 0, 0)
                 });
             paragraph.Padding = new Thickness(0);
+            paragraph.Margin = new Thickness(5);
             cell.Children.Add(paragraph);
             cell.Padding = new Thickness(0);
             return cell;
         }
+        private static C1TableCell CreateDataCell(string? name)
+        {
+            var cell = CreateCell(name, new TsrDataCell());
+            return cell;
+        }
 
-        private static C1TableCell CreateRowHeaderCell(
+        private static C1TableCell CreateColumnHeaderCell(
             string? name,
             int rowSpan,
             int columnSpan)
         {
-            var cell = new HeaderCell();
-            cell.BorderThickness = new Thickness(1);
-            var paragraph = new C1Paragraph();
-            paragraph.Children.Add(
-                new C1Run()
-                {
-                    Text = name,
-                    Padding = new Thickness(5, 0, 5, 0)
-                });
+
+            var cell = CreateCell(name, new TsrHeaderCell());
+
+            cell.RowSpan = rowSpan;
+            cell.ColumnSpan = columnSpan;
+            cell.Background = Brushes.LightGray;
+            cell.TextAlignment = C1TextAlignment.Center;
+            cell.VerticalAlignment = C1VerticalAlignment.Middle;
+
+            return cell;
+        }
+
+        private static C1TableCell CreateRowHeaderCell(
+        string? name,
+        int rowSpan,
+        int columnSpan)
+        {
+            
+            var cell = CreateCell(name, new TsrHeaderCell());
+
+            cell.RowSpan = rowSpan;
+            cell.ColumnSpan = columnSpan;
+            cell.TextAlignment = C1TextAlignment.Left;
+            cell.VerticalAlignment = C1VerticalAlignment.Middle;
+
+            char[] chars = name.ToCharArray();
+            if (chars.Any(x => char.IsDigit(x) == false))
+            {
+                cell.TextAlignment = C1TextAlignment.Left;
+            }
+            else
+            {
+                cell.TextAlignment = C1TextAlignment.Right;
+            }
+
+            return cell;
 
             //var comboList = new List<string>()
             //{
@@ -56,95 +88,96 @@ namespace ComponentOneTest.Serviceis.C1RichTextBox
             //};
             //paragraph.Children.Add((container));
 
-            paragraph.Padding = new Thickness(0);
-            cell.Children.Add(paragraph);
-            cell.Padding = new Thickness(0);
-            cell.RowSpan = rowSpan;
-            cell.ColumnSpan = columnSpan;
-            
-            return cell;
+
         }
 
-        public static C1Table CreateTable<T>(IList<T> list) where T : class
+        //public static C1Table CreateTable<T>(IList<T> list) where T : class
+        //{
+        //    var table = new C1Table();
+        //    var properties = typeof(T).GetProperties();
+
+        //    //var columnNamesProperty = typeof(T).GetProperty("ColumnNames");
+        //    //var columnNames =  columnNamesProperty?.GetValue(list[0]) as List<string>;
+
+        //    // カラムの作成
+        //    for (int i = 0; i < properties.Count(); i++)
+        //    {
+        //        table.Columns.Add(new C1TableColumn());
+        //    }
+        //    //if (columnNames == null) return null;
+        //    //foreach (var col in columnNames)
+        //    //{
+        //    //    table.Columns.Add(new C1TableColumn());
+        //    //}
+
+        //    // タイトル行の生成
+        //    var titleRow = new C1TableRow();
+        //    foreach (var property in properties)
+        //    {
+        //        var cell = CreateCell(property.Name);
+        //        cell.TextAlignment = C1TextAlignment.Center;
+        //        cell.Background = new SolidColorBrush(Colors.LightGray);
+        //        titleRow.Children.Add(cell);
+        //    }
+        //    table.Children.Add(titleRow);
+
+        //    //foreach(var col in columnNames)
+        //    //{
+        //    //    var cell = CreateCell(col);
+        //    //    cell.TextAlignment = C1TextAlignment.Center;
+        //    //    cell.Background = new SolidColorBrush(Colors.LightGray);
+        //    //    titleRow.Children.Add(cell);
+        //    //}
+        //    //table.Children.Add(titleRow);
+
+        //    // データ行の生成
+        //    foreach (var entity in list)
+        //    {
+        //        var valueRow = new C1TableRow();
+        //        foreach (var prop in properties)
+        //        {
+        //            var valueObj = prop.GetValue(entity);
+        //            var value = valueObj?.ToString();
+        //            valueRow.Children.Add(CreateCell(value));
+        //        }
+        //        table.Children.Add(valueRow);
+        //    }
+
+        //    // テーブル設定
+        //    table.BorderCollapse = true;
+        //    table.TableAlignment = C1TextAlignment.Center;
+        //    table.Padding = new Thickness(0);
+
+        //    return table;
+        //}
+
+        public static IList<ITsrHeader> GetItemSource(List<TableHeaderEntity> list)
         {
-            var table = new C1Table();
-            var properties = typeof(T).GetProperties();
-
-            //var columnNamesProperty = typeof(T).GetProperty("ColumnNames");
-            //var columnNames =  columnNamesProperty?.GetValue(list[0]) as List<string>;
-
-            // カラムの作成
-            for (int i = 0; i < properties.Count(); i++)
-            {
-                table.Columns.Add(new C1TableColumn());
-            }
-            //if (columnNames == null) return null;
-            //foreach (var col in columnNames)
-            //{
-            //    table.Columns.Add(new C1TableColumn());
-            //}
-
-            // タイトル行の生成
-            var titleRow = new C1TableRow();
-            foreach (var property in properties)
-            {
-                var cell = CreateCell(property.Name);
-                cell.TextAlignment = C1TextAlignment.Center;
-                cell.Background = new SolidColorBrush(Colors.LightGray);
-                titleRow.Children.Add(cell);
-            }
-            table.Children.Add(titleRow);
-
-            //foreach(var col in columnNames)
-            //{
-            //    var cell = CreateCell(col);
-            //    cell.TextAlignment = C1TextAlignment.Center;
-            //    cell.Background = new SolidColorBrush(Colors.LightGray);
-            //    titleRow.Children.Add(cell);
-            //}
-            //table.Children.Add(titleRow);
-
-            // データ行の生成
-            foreach (var entity in list)
-            {
-                var valueRow = new C1TableRow();
-                foreach (var prop in properties)
-                {
-                    var valueObj = prop.GetValue(entity);
-                    var value = valueObj?.ToString();
-                    valueRow.Children.Add(CreateCell(value));
-                }
-                table.Children.Add(valueRow);
-            }
-
-            // テーブル設定
-            table.BorderCollapse = true;
-            table.TableAlignment = C1TextAlignment.Center;
-            table.Padding = new Thickness(0);
-
-            return table;
-        }
-
-        public static IList<ITableHeader> GetItemSource(List<TableHeaderEntity> list)
-        {
-            var source = new List<ITableHeader>();
+            var source = new List<ITsrHeader>();
 
             foreach (var entity in list)
             {
                 var parent = GetParent(source, entity.Parent);
                 if (parent != null)
                 {
-                    parent.Add(new Header(entity));
+                    parent.Add(new TsrHeader(entity));
                 }
                 else
                 {
-                    source.Add(new HeaderContainer(entity));
+                    if (entity.IsMeasurementItem)
+                    {
+                        source.Add(new TsrCriteriaContainer(entity));
+                    }
+                    else
+                    {
+                        source.Add(new TsrHeaderContainer(entity));
+                    }
                 }
             }
             return source;
         }
 
-        public static ITableHeader? GetParent(IList<ITableHeader> list, int parentId)
+        public static ITsrHeader? GetParent(IList<ITsrHeader> list, int parentId)
         {
             foreach (var entity in list)
             {
@@ -157,13 +190,13 @@ namespace ComponentOneTest.Serviceis.C1RichTextBox
             return null;
         }
 
-        private static int[] GetWidthArray(IEnumerable<ITableHeader> items)
+        private static int[] GetEndNodesCountArray(IEnumerable<ITsrHeader> items)
         {
             var widths = new int[items.Count()];
             var i = 0;
             foreach (var item in items)
             {
-                widths[i] = item.GetWidth();
+                widths[i] = item.GetEndNodesCount();
                 i++;
             }
             return widths;
@@ -181,33 +214,196 @@ namespace ComponentOneTest.Serviceis.C1RichTextBox
 
                 int rowSpan = columnHeaderHeight;
                 int columnSpan = header.GetDepth();
-                var cell = CreateRowHeaderCell(
+                var cell = CreateColumnHeaderCell(
                         header.ToString(),
                         rowSpan,
                         columnSpan);
-                cell.Background = Brushes.LightGray;
-                cell.TextAlignment = C1TextAlignment.Center;
-                cell.VerticalAlignment = C1VerticalAlignment.Middle;
+
+                
                 row.Children.Add(cell);
             }
         }
 
-        private static int CreateColumnContainerTitles(
-            ITableHeader header,
+        
+        private static void CreateColumnHeader(
+            C1Table table,
+            ITsrHeader header,
+            int rowPointer,
+            int maxDepth,
+            int widthRate)
+        {
+            int columnSpan = header.GetEndNodesCount() * widthRate;
+
+            var row = table.RowGroups[0].Children.First(x => x.Index == rowPointer);
+            row.Children.Add(CreateColumnHeaderCell(
+                        header.ToString(),
+                        maxDepth - header.Level - header.GetDepth() + 2,
+                        columnSpan));
+            
+            rowPointer++;
+            foreach (var child in header.Children)
+            {
+                CreateColumnHeader(table, child, rowPointer, maxDepth, widthRate);
+            }
+        }
+
+        private static void CreateRowHeaders(
+            TableContent tableContent,
             C1Table c1Table,
-            int itr,
+            int columnHeaderHight)
+        {
+            if (tableContent.RowHeaders == null) return;
+            // ヘッダーの繰り返し挿入回数
+            var repeat = 1;
+            var endNodesCountArray =
+                GetEndNodesCountArray(tableContent.RowHeaders);
+
+            var widthRate = endNodesCountArray.Aggregate((x, y) => x * y);
+
+            var i = 0;
+            foreach (var header in tableContent.RowHeaders)
+            {
+                var rowPointer = columnHeaderHight;
+                var containerWidth = header.GetDepth();
+                widthRate /= endNodesCountArray[i];
+
+                for (int j = 0; j < repeat; j++)
+                {
+                    foreach (var child in header.Children)
+                    {
+                        rowPointer += CreateRowHeader(
+                            c1Table,
+                            rowPointer,
+                            child,
+                            containerWidth,
+                            widthRate);
+                    }
+                }
+                repeat *= endNodesCountArray[i];
+                i++;
+            }
+        }
+
+        private static void CreateDataCell(
+            TableContent tableContent,
+            C1Table c1Table,
+            int columnHeaderHeight)
+        {
+            if (tableContent.RowHeaders == null) return;
+            int rowWidth = GetEndNodesCountArray(
+                tableContent.RowHeaders).Aggregate((x, y) => x * y);
+
+            int columnWidth = GetEndNodesCountArray(
+                tableContent.ColumnHeaders).Aggregate((x, y) => x * y);
+
+            for (int i = 0; i < rowWidth; i++)
+            {
+                var row = c1Table.RowGroups[0].Children.First(
+                    x => x.Index == i + columnHeaderHeight);
+
+                for (int j = 0; j < columnWidth; j++)
+                {
+                    row.Children.Add(CreateDataCell(" "));
+                }
+            }
+        }
+        private static int CreateRowHeader(C1Table table, int pointer,
+            ITsrHeader header,
+            int maxDepth,
+            int widthRate)
+        {
+            int pointerSub = pointer;
+            int rowSpan = header.GetEndNodesCount() * widthRate;
+            var row = table.RowGroups[0].Children.First(x => x.Index == pointerSub);
+            var cell = CreateRowHeaderCell(
+                        header.ToString(),
+                        rowSpan,
+                        maxDepth - header.Level - header.GetDepth() + 2);
+           
+            row.Children.Add(cell);
+
+            foreach (var child in header.Children)
+            {
+                pointerSub += CreateRowHeader(table, pointerSub, child, maxDepth, widthRate);
+            }
+            return rowSpan;
+        }
+
+        private static void CreateColumnHeaders(
+            TableContent tableContent,
+            C1Table c1Table,
+            int columnHeaderHeight)
+        {
+            // todo
+            IEnumerable<ITsrHeader> tsrHeaderContainers=
+                tableContent.ColumnHeaders.OfType<ITsrHeader>();
+
+            IEnumerable<ITsrHeader> tsrCriteriaContainers =
+                tableContent.ColumnHeaders.OfType<TsrCriteriaContainer>();
+
+
+            var rowPointer = 0;
+            var endNodesCountArray =
+                GetEndNodesCountArray(tsrHeaderContainers);
+
+            var widthRate =  endNodesCountArray.Aggregate((x, y) => x * y);
+
+            var counter = 0;
+            //var criteriaCount = 0;
+            //foreach (var container in tsrHeaderContainers)
+            //{
+            //    if (container is TsrCriteriaContainer)
+            //    {
+            //        criteriaCount += endNodesCountArray[counter];
+            //    }
+            //    else
+            //    {
+            //        widthRate *= endNodesCountArray[counter];
+            //    }
+            //}
+            //widthRate *= criteriaCount;
+
+            var repeat = 1;
+            counter = 0;
+            foreach (var container in
+                tableContent.ColumnHeaders.OfType<IContainer>())
+            {
+                widthRate /= endNodesCountArray[counter];
+                var rate = container.IsMeasurementItem ? 1 : widthRate;
+
+                var subPointer = rowPointer;
+                // ContainerTitleの作成
+                subPointer += CreateColumnContainerTitles(
+                    container, c1Table, subPointer, rate, repeat);
+                // ColumnHeaderの作成
+                subPointer += CreateColumnContainer(
+                    container, c1Table, subPointer, rate, repeat);
+
+                if (container.IsMeasurementItem == false)
+                {
+                    repeat *= endNodesCountArray[counter];
+                    rowPointer = subPointer;
+                }
+                counter++;
+
+            }
+        }
+
+        private static int CreateColumnContainerTitles(
+            IContainer container,
+            C1Table c1Table,
+            int rowPointer,
             int widthRate,
             int repeat)
         {
-            var container = header as HeaderContainer;
             if (container == null || !(container.IsVisibleTitle)) return 0;
-            var row = c1Table.RowGroups[0].Children.First(x => x.Index == itr);
+            var row = c1Table.RowGroups[0].Children.First(x => x.Index == rowPointer);
             int rowSpan = 1;
-            int columnSpan = container.GetWidth() * widthRate;
+            int columnSpan = container.GetEndNodesCount() * widthRate;
 
             for (int i = 0; i < repeat; i++)
             {
-                var cell = CreateRowHeaderCell(
+                var cell = CreateColumnHeaderCell(
                         container.ToString(),
                         rowSpan,
                         columnSpan);
@@ -222,7 +418,7 @@ namespace ComponentOneTest.Serviceis.C1RichTextBox
         }
 
         private static int CreateColumnContainer(
-            ITableHeader container,
+            IContainer container,
             C1Table c1Table,
             int itr,
             int widthRate,
@@ -239,145 +435,31 @@ namespace ComponentOneTest.Serviceis.C1RichTextBox
             }
             return maxDepth;
         }
-        private static void CreateColumnHeader(
-            C1Table table,
-            ITableHeader header,
-            int itr,
-            int maxDepth,
-            int widthRate)
+
+        public static TsrTable CreateTable(TableContent tableContent)
         {
-            int subItr = itr;
-            int columnSpan = header.GetWidth() * widthRate;
-
-            var row = table.RowGroups[0].Children.First(x => x.Index == itr);
-            var cell = CreateRowHeaderCell(
-                        header.ToString(),
-                        maxDepth - header.Level - header.GetDepth() + 2,
-                        columnSpan);
-
-            cell.TextAlignment = C1TextAlignment.Center;
-            cell.Background = Brushes.LightGray;
-            cell.VerticalAlignment = C1VerticalAlignment.Middle;
-            row.Children.Add(cell);
-            itr++;
-
-            foreach (var child in header.Children)
-            {
-                CreateColumnHeader(table, child, itr, maxDepth, widthRate);
-            }
-        }
-
-        private static void CreateRowHeaders(
-            TableContent tableContent,
-            C1Table c1Table,
-            int columnHeaderHight)
-        {
-            if (tableContent.RowHeaders == null) return;
-            int endPoint = 1;
-            var widthRate = GetWidthArray(tableContent.RowHeaders).Aggregate((x, y) => x * y);
-            foreach (var header in tableContent.RowHeaders)
-            {
-                var itr = columnHeaderHight;
-                int columnSpan = header.GetDepth();
-                widthRate /= header.GetWidth();
-                for (int j = 0; j < endPoint; j++)
-                {
-                    foreach (var child in header.Children)
-                    {
-                        itr += CreateRowHeader(c1Table, itr, child, columnSpan, widthRate);
-                    }
-                }
-                endPoint *= header.GetWidth();
-            }
-        }
-
-        private static void CreateDataCell(
-            TableContent tableContent,
-            C1Table c1Table,
-            int columnHeaderHeight)
-        {
-            if (tableContent.RowHeaders == null) return;
-            int rowWidth = GetWidthArray(tableContent.RowHeaders).Aggregate((x, y) => x * y);
-            int columnWidth = GetWidthArray(tableContent.ColumnHeaders).Aggregate((x, y) => x * y);
-
-            for (int i = 0; i < rowWidth; i++)
-            {
-                var row = c1Table.RowGroups[0].Children.First(x => x.Index == i + columnHeaderHeight);
-                for (int j = 0; j < columnWidth; j++)
-                {
-                    var cell = CreateCell(" ");
-                    //cell.Width = new C1Length(50, C1LengthUnitType.Pixel);
-                    row.Children.Add(cell);
-                }
-            }
-        }
-        private static int CreateRowHeader(C1Table table, int itr,
-            ITableHeader header,
-            int maxDepth,
-            int widthRate)
-        {
-            int itrSub = itr;
-            int rowSpan = header.GetWidth() * widthRate;
-            var row = table.RowGroups[0].Children.First(x => x.Index == itrSub);
-            var cell = CreateRowHeaderCell(
-                        header.ToString(),
-                        rowSpan,
-                        maxDepth - header.Level - header.GetDepth() + 2);
-            cell.TextAlignment = C1TextAlignment.Left;
-            row.Children.Add(cell);
-
-            foreach (var child in header.Children)
-            {
-                itrSub += CreateRowHeader(table, itrSub, child, maxDepth, widthRate);
-            }
-
-            return rowSpan;
-        }
-        private static void CreateColumnHeaders(
-            TableContent tableContent,
-            C1Table c1Table,
-            int columnHeaderHeight)
-        {
-            int itr = 0;
-            int widthRate = GetWidthArray(tableContent.ColumnHeaders)
-                .Aggregate((x, y) => x * y);
-            int repeat = 1;
-            foreach (var container in tableContent.ColumnHeaders)
-            {
-                widthRate /= container.GetWidth();
-                // ColumnHeaderTitleの作成
-                itr += CreateColumnContainerTitles(container, c1Table, itr, widthRate, repeat);
-                // ColumnHeaderの作成
-                itr += CreateColumnContainer(container, c1Table, itr, widthRate, repeat);
-                repeat *= container.GetWidth();
-            }
-        }
-
-        public static C1Table CreateTable(TableContent tableContent)
-        {
-            //　行数を算出
+            //　表全体の行数を算出
             int rowHeaderWidth =
-                tableContent.RowHeaders == null ? 0 : GetWidthArray(tableContent.RowHeaders)
-                .Aggregate((x, y) => x * y);
-            //　表のColumnHeader部分の高さを算出
+                tableContent.RowHeaders == null ? 0 : 
+                GetEndNodesCountArray(tableContent.RowHeaders)
+                    .Aggregate((x, y) => x * y);
+
+            //　表のColumnHeader部分の高さcolumnHeaderHeightを算出
             var visibleTitleNumber =
-                tableContent.ColumnHeaders.OfType<HeaderContainer>()
+                tableContent.ColumnHeaders.OfType<IContainer>()
                 .Count(x => x.IsVisibleTitle == true);
             int columnHeaderHeight =
                 tableContent.ColumnHeaders.Sum(x => x.GetDepth())
                 + visibleTitleNumber;
 
-            // RichTextBoxの表と行を作成
-            var c1Table = new C1Table();
-            c1Table.BorderCollapse = true;
-
+            // 表コントロールの作成と行の挿入
+            var c1Table = new TsrTable();
             var rg = new C1TableRowGroup();
-            c1Table.RowGroups.Add(rg);
-
             for (int i = 0; i < rowHeaderWidth + columnHeaderHeight; i++)
             {
                 rg.Rows.Add(new C1TableRow());
             }
+            c1Table.RowGroups.Add(rg);
 
             // CellHeaderの挿入
             CreateCellHeader(tableContent, c1Table, columnHeaderHeight);
@@ -388,13 +470,13 @@ namespace ComponentOneTest.Serviceis.C1RichTextBox
             // DataCellの挿入
             CreateDataCell(tableContent, c1Table, columnHeaderHeight);
 
-
+            c1Table.BorderCollapse = true;
             return c1Table;
         }
 
-        public static IList<ITableHeader> CreateColumnDataStructure(IList<ITableHeader> container)
+        public static IList<ITsrHeader> CreateColumnDataStructure(IList<ITsrHeader> container)
         {
-            var columnDS = new List<ITableHeader>();
+            var columnDS = new List<ITsrHeader>();
             //foreach (var header in container[0].Children)
             //{
             //    columnDS.Add(CombineContainer(header));
@@ -411,7 +493,7 @@ namespace ComponentOneTest.Serviceis.C1RichTextBox
             return columnDS;
         }
 
-        private static void CombineContainer2(ITableHeader dataStructure, ITableHeader container )
+        private static void CombineContainer2(ITsrHeader dataStructure, ITsrHeader container )
         {
             if (dataStructure.Children.Count == 0)
             {
@@ -426,16 +508,16 @@ namespace ComponentOneTest.Serviceis.C1RichTextBox
             }
         }
 
-        private static ITableHeader CombineContainer(ITableHeader header)
+        private static ITsrHeader CombineContainer(ITsrHeader header)
         {
-            ITableHeader ds;
-            if (header is HeaderContainer)
+            ITsrHeader ds;
+            if (header is TsrHeaderContainer)
             {
-                ds = new HeaderContainer(header.GetEntity());
+                ds = new TsrHeaderContainer(header.GetEntity());
             }
             else
             {
-                ds = new Header(header.GetEntity());
+                ds = new TsrHeader(header.GetEntity());
             }
 
             foreach (var child in header.Children)

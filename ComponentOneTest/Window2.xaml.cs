@@ -29,11 +29,11 @@ namespace ComponentOneTest
     /// </summary>
     public partial class Window2 : Window
     {
-        private List<HeaderContainer> _headers = new();
+        private List<TsrHeaderContainer> _headers = new();
         public Window2()
         {
             InitializeComponent();
-            rtb.ViewMode = C1.WPF.RichTextBox.TextViewMode.Print;
+            rtb.ViewMode = C1.WPF.RichTextBox.TextViewMode.Draft;
             rtb.Zoom = 1.5;
         }
 
@@ -84,12 +84,12 @@ namespace ComponentOneTest
             //var cell = row.Children[0] as C1TableCell;
             //cell.RowSpan = 2;
 
-            var data1 = RichTextBoxTools.GetItemSource(HeaderFake.GetData(1));
-            var data2 = RichTextBoxTools.GetItemSource(HeaderFake.GetData(0));
+            var data1 = RichTextBoxTools.GetItemSource(TableHeaderFake.GetData(1));
+            var data2 = RichTextBoxTools.GetItemSource(TableHeaderFake.GetData(0));
 
             tv1.ItemsSource = data1;
             tv2.ItemsSource = data2;
-            var ds =new List<ITableHeader>();
+            var ds =new List<ITsrHeader>();
             var ds1 = data1.ToList();
             var ds2 = data2.ToList();
             ds1.ForEach(x => ds.Add(x));
@@ -100,29 +100,41 @@ namespace ComponentOneTest
 
             var table = new TableContent("name",data1, data2);
 
-            rtb.Document.Blocks.Add(new C1Paragraph());
-            rtb.Document.Blocks.Add(RichTextBoxTools.CreateTable(table));
-            rtb.Document.Blocks.Add(new C1Paragraph());
+            var tsrTable = RichTextBoxTools.CreateTable(table);
+            rtb.Document.Blocks.Clear();
+            rtb.Document.Blocks.Add(tsrTable);
 
-
+            //var dic = new Dictionary<int, string>()
+            //{
+            //    {1,"qqq" },{2,"www"},{3,"eee"}
+            //};
+            //var item = new TSRTableData(
+            //    10, dic, 100, 20, "±", 0, 1
+            //    );
+            //var str1=item.DisplayValue(1);
+            //var str2=item.DisplayCondition();
         }
 
         private void GetDataButton_Click(object sender, RoutedEventArgs e)
         {
             if( rtb.Selection.Cells.Count()>0)
             {
-                var cells = rtb.Selection.Cells.ToList();
-                var col = cells[0].Index;
-                var row = cells[0].Parent.Index;
+                var cell = rtb.Selection.Cells.First();
+                if (cell is not TsrDataCell) return;
 
-                var parent = cells[0].Parent;
-                // todo
-                int counter =  parent.Children.OfType<DataCell>().Count(x=>x.Index<col);
                 
-
-
-
-                tb1.Text = $"Row:{row},Column:{col}";
+                var parent = cell.Parent;
+                
+                int counter1 = 0;
+                foreach(var rw in parent.Parent.Children)
+                {
+                    if (rw.Children.Count(x => x.GetType() == typeof(TsrDataCell)) > 0) 
+                        counter1++;
+                    if (rw.Index == parent.Index) break;
+                };
+                
+                int counter =  parent.Children.OfType<TsrDataCell>().Count(x=>x.Index<= cell.Index);
+                tb1.Text = $"Row:{counter1},Column:{counter}";
             }
         }
     }

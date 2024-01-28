@@ -14,4 +14,8 @@
     <PackageReference Include="C1.WPF.RichTextBox.Ribbon.Ja" Version="6.0.20232.607" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Common\" />
+  </ItemGroup>
+
 </Project>

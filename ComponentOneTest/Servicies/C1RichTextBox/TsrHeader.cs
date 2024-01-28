@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace ComponentOneTest.Servicies.C1RichTextBox
 {
-    public sealed class Header : ITableHeader
+    public sealed class TsrHeader : ITsrHeader
     {
-        public IList<ITableHeader> Children { get; } = new List<ITableHeader>();
+        public IList<ITsrHeader> Children { get; } = new List<ITsrHeader>();
         private TableHeaderEntity _headerEntity;
 
         public int Level => _headerEntity.Level;
@@ -17,7 +17,7 @@ namespace ComponentOneTest.Servicies.C1RichTextBox
         public int Parent => _headerEntity.Parent;
         public string Value => _headerEntity.Value;
 
-        public Header(TableHeaderEntity headerEntity)
+        public TsrHeader(TableHeaderEntity headerEntity)
         {
             _headerEntity = headerEntity;
         }
@@ -25,25 +25,25 @@ namespace ComponentOneTest.Servicies.C1RichTextBox
         {
             return Value;
         }
-        public void Add(ITableHeader tableHeader)
+        public void Add(ITsrHeader tableHeader)
         {
             Children.Add(tableHeader);
         }
         public int GetDepth()
         {
             int depth = this.Level;
-            foreach (ITableHeader child in Children)
+            foreach (ITsrHeader child in Children)
             {
                 depth = Math.Max(depth, child.GetDepth());
             }
             return depth;
         }
-        public int GetWidth()
+        public int GetEndNodesCount()
         {
             int width = 0;
-            foreach (ITableHeader child in Children)
+            foreach (ITsrHeader child in Children)
             {
-                width += child.GetWidth();
+                width += child.GetEndNodesCount();
             }
             return Math.Max(1, width);
         }

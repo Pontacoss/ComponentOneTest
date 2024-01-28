@@ -2,24 +2,23 @@
 
 namespace ComponentOneTest.Servicies.C1RichTextBox
 {
-    
-    public sealed class HeaderContainer : ITableHeader
+
+    public sealed class TsrRemarksContainer : ITsrHeader
     {
-        public IList<ITableHeader> Children { get; } = new List<ITableHeader>();
+        public IList<ITsrHeader> Children { get; } = new List<ITsrHeader>();
         private TableHeaderEntity _headerEntity;
 
         public string? Title => _headerEntity.Title;
         public int Id => _headerEntity.Id;
         public int Level => 0;
         public bool IsVisibleTitle => _headerEntity.IsTitleVisible;
-        public bool IsMeasurementItem => _headerEntity.IsMeasurementItem;
 
-        public HeaderContainer(TableHeaderEntity headerEntity)
+        public TsrRemarksContainer(TableHeaderEntity headerEntity)
         {
             _headerEntity = headerEntity;
         }
 
-        public void Add(ITableHeader tableHeader)
+        public void Add(ITsrHeader tableHeader)
         {
             Children.Add(tableHeader);
         }
@@ -32,18 +31,18 @@ namespace ComponentOneTest.Servicies.C1RichTextBox
         public int GetDepth()
         {
             int depth = 0;
-            foreach (ITableHeader child in Children)
+            foreach (ITsrHeader child in Children)
             {
                 depth = Math.Max(depth, child.GetDepth());
             }
             return depth;
         }
-        public int GetWidth()
+        public int GetEndNodesCount()
         {
             int width = 0;
-            foreach (ITableHeader child in Children)
+            foreach (ITsrHeader child in Children)
             {
-                width += child.GetWidth();
+                width += child.GetEndNodesCount();
             }
             return Math.Max(1, width);
         }
@@ -53,5 +52,6 @@ namespace ComponentOneTest.Servicies.C1RichTextBox
         }
     }
 
-    
+
 }
+

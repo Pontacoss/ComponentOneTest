@@ -2,26 +2,30 @@
 
 namespace ComponentOneTest.Serviceis.C1RichTextBox
 {
-    internal static class HeaderFake
+    internal static class TableHeaderFake
     {
         internal static List<TableHeaderEntity> GetData(int selector)
         {
             var result = new List<TableHeaderEntity>();
             if (selector == 0)
             {
+                
 
-
-                var entity = new TableHeaderEntity(10, "試験項目\nトルクパターン", true, true);
+                var entity = new TableHeaderEntity(10, "試験項目\nトルクパターン", true, false);
                 result.Add(entity);
                 result.Add(new TableHeaderEntity(entity, 11, "基準値"));
                 result.Add(new TableHeaderEntity(entity, 12, "公差"));
 
+                //var entity2 = new TableHeaderEntity(20, "試験項目2\nパターン2", true, false);
+                //result.Add(entity2);
+                //result.Add(new TableHeaderEntity(entity2, 21, "基準値"));
+                //result.Add(new TableHeaderEntity(entity2, 22, "公差"));
 
 
             }
             else if (selector == 1)
             {
-                var entity2 = new TableHeaderEntity(20, "試験条件1\n応荷重", true, true);
+                var entity2 = new TableHeaderEntity(20, "試験条件1\n応荷重", true, false);
                 result.Add(entity2);
                 var entity3 = new TableHeaderEntity(entity2, 21, "AW0");
                 result.Add(entity3);
@@ -31,15 +35,18 @@ namespace ComponentOneTest.Serviceis.C1RichTextBox
                 result.Add(new TableHeaderEntity(entity31, 221, "45%"));
                 result.Add(new TableHeaderEntity(entity31, 231, "75%"));
 
-                var entity4 = new TableHeaderEntity(30, "試験条件2\n車輪径", true, true);
+                var entity4 = new TableHeaderEntity(30, "試験条件2\n車輪径", true, false);
                 result.Add(entity4);
                 result.Add(new TableHeaderEntity(entity4, 311, "820"));
                 result.Add(new TableHeaderEntity(entity4, 312, "860"));
 
-                var entity5 = new TableHeaderEntity(40, "試験条件3\nFM(Hz)", true, true);
+                var entity5 = new TableHeaderEntity(40, "試験条件3\nFM(Hz)", true, false);
                 result.Add(entity5);
                 result.Add(new TableHeaderEntity(entity5, 411, "10"));
                 result.Add(new TableHeaderEntity(entity5, 412, "20"));
+
+
+
 
             }
             else if (selector == 2)
