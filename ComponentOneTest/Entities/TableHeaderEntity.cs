@@ -42,5 +42,16 @@
             IsTitleVisible = isTitleVisible;
             IsMeasurementItem = isMeasurementItem;
         }
+
+        public TableHeaderEntity(
+            TableHeaderEntity? parent, int id, string title, bool isTitleVisible, bool isMeasurementItem)
+        {
+            Id = id;
+            Title = title;
+            Parent = parent != null ? parent.Id : 0;
+            Level = parent != null ? parent.Level + 1 : 0;
+            IsTitleVisible = isTitleVisible;
+            IsMeasurementItem = isMeasurementItem;
+        }
     }
 }

@@ -198,7 +198,7 @@
                 <TreeView Name="tv4" Height="300" >
                     <TreeView.ItemTemplate>
                         <HierarchicalDataTemplate DataType="local2:ITableHeader"
-                  ItemsSource="{Binding Children}">
+                              ItemsSource="{Binding Children}">
                             <TextBlock Text="{Binding}"/>
                         </HierarchicalDataTemplate>
                     </TreeView.ItemTemplate>

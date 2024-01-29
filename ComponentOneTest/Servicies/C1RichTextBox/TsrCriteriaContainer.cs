@@ -14,7 +14,7 @@ namespace ComponentOneTest.Servicies.C1RichTextBox
         public int Level => _headerEntity.Level;
         public string Title => _headerEntity.Title;
 
-        public IList<ITsrHeader> Children { get; private set; }
+        public IList<ITsrHeader> Children { get; private set; }= new List<ITsrHeader>();
 
         public bool IsVisibleTitle => _headerEntity.IsTitleVisible;
 
@@ -23,11 +23,11 @@ namespace ComponentOneTest.Servicies.C1RichTextBox
         public TsrCriteriaContainer(TableHeaderEntity headerEntity)
         {
             _headerEntity = headerEntity;
-            Children = new List<ITsrHeader>()
-                {
-                    new TsrHeader(new TableHeaderEntity(this.GetEntity(), this.Id+1, "基準値")),
-                    new TsrHeader(new TableHeaderEntity(this.GetEntity(), this.Id+2, "公差"))
-                };
+            //Children = new List<ITsrHeader>()
+            //    {
+            //        new TsrHeader(new TableHeaderEntity(this.GetEntity(), this.Id+1, "基準値")),
+            //        new TsrHeader(new TableHeaderEntity(this.GetEntity(), this.Id+2, "公差"))
+            //    };
         }
 
         public override string ToString()
@@ -37,7 +37,7 @@ namespace ComponentOneTest.Servicies.C1RichTextBox
 
         public void Add(ITsrHeader tableHeader)
         {
-            throw new NotImplementedException();
+            Children.Add(tableHeader);
         }
 
         public int GetDepth()
@@ -52,7 +52,12 @@ namespace ComponentOneTest.Servicies.C1RichTextBox
 
         public int GetEndNodesCount()
         {
-            return 2;
+            int width = 0;
+            foreach (ITsrHeader child in Children)
+            {
+                width += child.GetEndNodesCount();
+            }
+            return Math.Max(1, width);
         }
     }
 }

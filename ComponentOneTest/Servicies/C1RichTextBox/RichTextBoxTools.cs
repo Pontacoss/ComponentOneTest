@@ -5,6 +5,7 @@ using System.Windows.Media;
 using ComponentOneTest.Servicies.C1RichTextBox;
 using System.Windows.Controls;
 using System.Windows.Documents;
+using System.Collections.Generic;
 
 namespace ComponentOneTest.Serviceis.C1RichTextBox
 {
@@ -160,7 +161,14 @@ namespace ComponentOneTest.Serviceis.C1RichTextBox
                 var parent = GetParent(source, entity.Parent);
                 if (parent != null)
                 {
-                    parent.Add(new TsrHeader(entity));
+                    if (entity.Value != null)
+                    {
+                        parent.Add(new TsrHeader(entity));
+                    }
+                    else
+                    {
+                        parent.Add(new TsrCriteriaContainer(entity));
+                    }
                 }
                 else
                 {
@@ -190,7 +198,7 @@ namespace ComponentOneTest.Serviceis.C1RichTextBox
             return null;
         }
 
-        private static int[] GetEndNodesCountArray(IEnumerable<ITsrHeader> items)
+        private static int[] GetEndNodesCountArray(IEnumerable<IContainer> items)
         {
             var widths = new int[items.Count()];
             var i = 0;
@@ -253,15 +261,18 @@ namespace ComponentOneTest.Serviceis.C1RichTextBox
             int columnHeaderHight)
         {
             if (tableContent.RowHeaders == null) return;
+            IEnumerable<IContainer> tsrContainer =
+                tableContent.RowHeaders.OfType<IContainer>();
+
             // ヘッダーの繰り返し挿入回数
             var repeat = 1;
             var endNodesCountArray =
-                GetEndNodesCountArray(tableContent.RowHeaders);
+                GetEndNodesCountArray(tsrContainer);
 
             var widthRate = endNodesCountArray.Aggregate((x, y) => x * y);
 
             var i = 0;
-            foreach (var header in tableContent.RowHeaders)
+            foreach (var header in tsrContainer)
             {
                 var rowPointer = columnHeaderHight;
                 var containerWidth = header.GetDepth();
@@ -290,11 +301,15 @@ namespace ComponentOneTest.Serviceis.C1RichTextBox
             int columnHeaderHeight)
         {
             if (tableContent.RowHeaders == null) return;
+            IEnumerable<IContainer> rowContainer=tableContent.RowHeaders.OfType<IContainer>();
+            IEnumerable<IContainer> columnContainer=tableContent.ColumnHeaders.OfType<IContainer>();
+
+            
             int rowWidth = GetEndNodesCountArray(
-                tableContent.RowHeaders).Aggregate((x, y) => x * y);
+               rowContainer).Aggregate((x, y) => x * y);
 
             int columnWidth = GetEndNodesCountArray(
-                tableContent.ColumnHeaders).Aggregate((x, y) => x * y);
+                columnContainer).Aggregate((x, y) => x * y);
 
             for (int i = 0; i < rowWidth; i++)
             {
@@ -335,41 +350,41 @@ namespace ComponentOneTest.Serviceis.C1RichTextBox
             int columnHeaderHeight)
         {
             // todo
-            IEnumerable<ITsrHeader> tsrHeaderContainers=
-                tableContent.ColumnHeaders.OfType<ITsrHeader>();
+            IEnumerable<IContainer> tsrHeaderContainers=
+                tableContent.ColumnHeaders.OfType<IContainer>();
 
-            IEnumerable<ITsrHeader> tsrCriteriaContainers =
-                tableContent.ColumnHeaders.OfType<TsrCriteriaContainer>();
+            //IEnumerable<ITsrHeader> tsrCriteriaContainers =
+            //    tableContent.ColumnHeaders.OfType<TsrCriteriaContainer>();
 
 
             var rowPointer = 0;
             var endNodesCountArray =
                 GetEndNodesCountArray(tsrHeaderContainers);
 
-            var widthRate =  endNodesCountArray.Aggregate((x, y) => x * y);
+            var widthRate = 1;//  endNodesCountArray.Aggregate((x, y) => x * y);
 
             var counter = 0;
-            //var criteriaCount = 0;
-            //foreach (var container in tsrHeaderContainers)
-            //{
-            //    if (container is TsrCriteriaContainer)
-            //    {
-            //        criteriaCount += endNodesCountArray[counter];
-            //    }
-            //    else
-            //    {
-            //        widthRate *= endNodesCountArray[counter];
-            //    }
-            //}
-            //widthRate *= criteriaCount;
+            var criteriaCount = 0;
+            foreach (var container in tsrHeaderContainers)
+            {
+                if (container.IsMeasurementItem==false)
+                {
+                    criteriaCount += endNodesCountArray[counter];
+                }
+                else
+                {
+                    widthRate *= endNodesCountArray[counter];
+                }
+            }
+            widthRate *= criteriaCount;
 
             var repeat = 1;
             counter = 0;
-            foreach (var container in
-                tableContent.ColumnHeaders.OfType<IContainer>())
+            foreach (var container in tsrHeaderContainers)
             {
                 widthRate /= endNodesCountArray[counter];
-                var rate = container.IsMeasurementItem ? 1 : widthRate;
+                //var rate = container.IsMeasurementItem ? 1 : widthRate;
+                var rate =  widthRate;
 
                 var subPointer = rowPointer;
                 // ContainerTitleの作成
@@ -438,10 +453,16 @@ namespace ComponentOneTest.Serviceis.C1RichTextBox
 
         public static TsrTable CreateTable(TableContent tableContent)
         {
+            
+
+            if (tableContent.RowHeaders == null) return new TsrTable();
+
+            IEnumerable<IContainer> rowContainer =
+                tableContent.RowHeaders.OfType<IContainer>();
             //　表全体の行数を算出
             int rowHeaderWidth =
                 tableContent.RowHeaders == null ? 0 : 
-                GetEndNodesCountArray(tableContent.RowHeaders)
+                GetEndNodesCountArray(rowContainer)
                     .Aggregate((x, y) => x * y);
 
             //　表のColumnHeader部分の高さcolumnHeaderHeightを算出
