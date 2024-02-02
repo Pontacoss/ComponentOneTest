@@ -13,23 +13,29 @@ namespace ComponentOneTest.Serviceis.C1RichTextBox
     {
         private static C1TableCell CreateCell(string? name,C1TableCell cell)
         {
-            cell.BorderThickness = new Thickness(1);
             var paragraph = new C1Paragraph();
             paragraph.Children.Add(
                 new C1Run()
                 {
                     Text = name,
-                    Padding = new Thickness(0, 0, 0, 0)
+                    Padding = new Thickness(0, 0, 0, 0),
+                    Margin = new Thickness(0)
                 });
             paragraph.Padding = new Thickness(0);
             paragraph.Margin = new Thickness(5);
             cell.Children.Add(paragraph);
+
+            cell.BorderThickness = new Thickness(1);
             cell.Padding = new Thickness(0);
+            cell.Margin = new Thickness(0);
+
             return cell;
         }
         private static C1TableCell CreateDataCell(string? name)
         {
             var cell = CreateCell(name, new TsrDataCell());
+            cell.TextAlignment = C1TextAlignment.Right;
+            cell.VerticalAlignment = C1VerticalAlignment.Middle;
             return cell;
         }
 
@@ -50,19 +56,12 @@ namespace ComponentOneTest.Serviceis.C1RichTextBox
             return cell;
         }
 
-        private static C1TableCell CreateRowHeaderCell(
-        string? name,
-        int rowSpan,
-        int columnSpan)
+        private static C1TableCell CreateRowHeaderCell(string? name)
         {
-            
             var cell = CreateCell(name, new TsrHeaderCell());
-
-            cell.RowSpan = rowSpan;
-            cell.ColumnSpan = columnSpan;
-            cell.TextAlignment = C1TextAlignment.Left;
             cell.VerticalAlignment = C1VerticalAlignment.Middle;
 
+            if (name == null) return cell;
             char[] chars = name.ToCharArray();
             if (chars.Any(x => char.IsDigit(x) == false))
             {
@@ -330,11 +329,10 @@ namespace ComponentOneTest.Serviceis.C1RichTextBox
             int pointerSub = pointer;
             int rowSpan = header.GetEndNodesCount() * widthRate;
             var row = table.RowGroups[0].Children.First(x => x.Index == pointerSub);
-            var cell = CreateRowHeaderCell(
-                        header.ToString(),
-                        rowSpan,
-                        maxDepth - header.Level - header.GetDepth() + 2);
-           
+            var cell = CreateRowHeaderCell(header.ToString());
+
+            cell.RowSpan=rowSpan;
+            cell.ColumnSpan = maxDepth - header.Level - header.GetDepth() + 2;
             row.Children.Add(cell);
 
             foreach (var child in header.Children)

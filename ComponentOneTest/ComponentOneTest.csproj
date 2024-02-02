@@ -12,6 +12,7 @@
     <PackageReference Include="C1.WPF.Core.Ja" Version="6.0.20232.607" />
     <PackageReference Include="C1.WPF.RichTextBox.Ja" Version="6.0.20232.607" />
     <PackageReference Include="C1.WPF.RichTextBox.Ribbon.Ja" Version="6.0.20232.607" />
+    <PackageReference Include="FreeSpire.Doc" Version="11.6.0" />
   </ItemGroup>
 
   <ItemGroup>
