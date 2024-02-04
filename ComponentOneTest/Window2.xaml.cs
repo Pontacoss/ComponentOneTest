@@ -29,7 +29,7 @@ namespace ComponentOneTest
     /// </summary>
     public partial class Window2 : Window
     {
-        private List<TsrHeaderContainer> _headers = new();
+        private List<BlockContainer> _headers = new();
         public Window2()
         {
             InitializeComponent();
@@ -89,7 +89,7 @@ namespace ComponentOneTest
 
             tv1.ItemsSource = data1;
             tv2.ItemsSource = data2;
-            var ds =new List<ITsrHeader>();
+            var ds =new List<HeaderBase>();
             var ds1 = data1.ToList();
             var ds2 = data2.ToList();
             ds1.ForEach(x => ds.Add(x));

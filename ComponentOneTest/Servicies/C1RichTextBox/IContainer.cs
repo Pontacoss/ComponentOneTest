@@ -1,4 +1,5 @@
-﻿using System;
+﻿using C1.WPF.RichTextBox.Documents;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,12 +9,15 @@ namespace ComponentOneTest.Servicies.C1RichTextBox
 {
     interface IContainer
     {
-        IList<ITsrHeader> Children { get; }
-        string? Title { get; }
-        bool IsVisibleTitle { get; }
+        bool IsTitleVisible { get; }
         bool IsMeasurementItem { get; }
-        int GetEndNodesCount();
-        int GetDepth();
+        bool IsRepeat { get; }
+        public int GetNodesCount();
+        NodesCounter GetHeaderWidth(NodesCounter nodesCounter);
+
+        C1TableCell CreateCellHeader(int columnHeaderHeight);
+        List<(C1TableCell header, int RowIndex)> CreateRowHedears(int cellHeight,int repeart);
+        int GainRepeat(int repeat);
 
     }
 }
