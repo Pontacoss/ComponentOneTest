@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Documents;
 
 namespace ComponentOneTest.Servicies.C1RichTextBox
 {
@@ -12,12 +13,23 @@ namespace ComponentOneTest.Servicies.C1RichTextBox
         bool IsTitleVisible { get; }
         bool IsMeasurementItem { get; }
         bool IsRepeat { get; }
-        public int GetNodesCount();
-        NodesCounter GetHeaderWidth(NodesCounter nodesCounter);
+
+        public int GetSpanSum();
+        SpanCounter GetHeaderWidth(SpanCounter spanCounter);
+        /// <summary>
+        /// 1セルあたりのサイズを設定
+        /// </summary>
+        /// <param name="spanCounter"></param>
+        /// <param name="repaetCellHeight"></param>
+        /// <returns></returns>
+        public int SetUnitSize(SpanCounter spanCounter, int repaetCellHeight);
+        public int SetRepeat(int repeat);
 
         C1TableCell CreateCellHeader(int columnHeaderHeight);
-        List<(C1TableCell header, int RowIndex)> CreateRowHedears(int cellHeight,int repeart);
-        int GainRepeat(int repeat);
+        int CreateRowHedears(C1Table table,int columnHeaderHeight);
+        int CreateColumnHedears(C1Table table,int rowIndex);
+
+        int CreateColumnContainerTitles(C1Table table, int rowIndex);
 
     }
 }

@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace ComponentOneTest.Servicies.C1RichTextBox
 {
-    public class NodesCounter
+    public class SpanCounter
     {
-        public int BlockCount { get; set; } = 1;
-        public int RepeatCount { get; set; } = 1;
+        public int BlockSpan { get; set; } = 1;
+        public int RepeatSpan { get; set; } = 1;
         
         public int GetNodesCount()
         {
-            return BlockCount * RepeatCount;
+            return BlockSpan * RepeatSpan;
         }
     }
 }

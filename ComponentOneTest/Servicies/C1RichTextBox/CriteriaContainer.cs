@@ -3,21 +3,19 @@ using ComponentOneTest.Entities;
 using ComponentOneTest.Serviceis.C1RichTextBox;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Documents;
 using System.Windows.Media;
 using System.Windows;
 
 namespace ComponentOneTest.Servicies.C1RichTextBox
 {
-    class RepeartContainer : HeaderBase, IContainer
+class CriteriaContainer : HeaderBase, IContainer
     {
         private int _repeat;
         private int _unitSize;
-        public RepeartContainer(TableHeaderEntity headerEntity)
+        public CriteriaContainer(TableHeaderEntity headerEntity)
             : base(headerEntity) { }
 
         public SpanCounter GetHeaderWidth(SpanCounter spanCounter)
@@ -29,14 +27,14 @@ namespace ComponentOneTest.Servicies.C1RichTextBox
         }
         public int SetUnitSize(SpanCounter spanCounter, int repaetHeaderUnitSize)
         {
-            _unitSize = repaetHeaderUnitSize / GetSpanSum();
+            _unitSize = 1;// repaetHeaderUnitSize / GetSpanSum();
             return _unitSize;
         }
 
         public int SetRepeat(int repeat)
         {
             _repeat = repeat;
-            return repeat * GetSpanSum();
+            return repeat;// * GetSpanSum();
         }
 
         public C1TableCell CreateCellHeader(int columnHeaderHeight)
@@ -63,7 +61,7 @@ namespace ComponentOneTest.Servicies.C1RichTextBox
             }
             return rowIndex;
         }
-        public int CreateColumnHedears(C1Table table,int rowIndex)
+        public int CreateColumnHedears(C1Table table, int rowIndex)
         {
             int maxDepth = GetDepth();
 
@@ -75,16 +73,16 @@ namespace ComponentOneTest.Servicies.C1RichTextBox
                         table, rowIndex, _unitSize, maxDepth);
                 }
             }
-            return maxDepth;
+            return 0;
         }
 
         public int CreateColumnContainerTitles(C1Table table, int rowIndex)
         {
-            if(!IsTitleVisible) return 0;
+            if (!IsTitleVisible) return 0;
 
             var row = table.RowGroups[0].Children.First(x => x.Index == rowIndex);
             int rowSpan = 1;
-            int columnSpan = GetSpanSum()*_unitSize;
+            int columnSpan = GetSpanSum() * _unitSize;
 
             for (int i = 0; i < _repeat; i++)
             {

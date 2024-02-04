@@ -98,7 +98,7 @@ namespace ComponentOneTest
             tv3.ItemsSource = RichTextBoxTools.CreateColumnDataStructure(ds);
             tv4.ItemsSource = RichTextBoxTools.CreateColumnDataStructure(data2);
 
-            var table = new TableContent("name",data1, data2);
+            var table = new TableContent("name", data1, data2);
 
             var tsrTable = RichTextBoxTools.CreateTable(table);
             rtb.Document.Blocks.Clear();

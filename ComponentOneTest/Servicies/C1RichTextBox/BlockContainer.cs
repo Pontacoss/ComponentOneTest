@@ -1,55 +1,73 @@
 ﻿using C1.WPF.RichTextBox.Documents;
 using ComponentOneTest.Entities;
 using ComponentOneTest.Serviceis.C1RichTextBox;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ComponentOneTest.Servicies.C1RichTextBox
 {
     public class BlockContainer : HeaderBase, IContainer
     {
-        public BlockContainer(TableHeaderEntity headerEntity) 
-            : base(headerEntity){ }
+        private int _repeat;
+        private int _unitSize;
 
-        public NodesCounter GetHeaderWidth(NodesCounter nodesCounter)
+        public BlockContainer(TableHeaderEntity headerEntity)
+            : base(headerEntity) { }
+
+        public SpanCounter GetHeaderWidth(SpanCounter spanCounter)
         {
-            var counter = new NodesCounter();
-            counter.BlockCount = Math.Max(nodesCounter.BlockCount, GetNodesCount());
-            counter.RepeatCount = nodesCounter.RepeatCount;
+            var counter = new SpanCounter();
+            counter.BlockSpan = Math.Max(spanCounter.BlockSpan, GetSpanSum());
+            counter.RepeatSpan = spanCounter.RepeatSpan;
             return counter;
         }
+        public int SetUnitSize (SpanCounter spanCounter,int repaetCellHeight)
+        {
+            _unitSize = spanCounter.RepeatSpan;
+            return repaetCellHeight;
+        }
 
-
+        public int SetRepeat( int repeat)
+        {
+            _repeat = 1;
+            return repeat;
+        }
 
         public C1TableCell CreateCellHeader(int columnHeaderHeight)
         {
-            var depth=GetDepth();
             return RichTextBoxTools.CreateColumnHeaderCell(
                 Name,
                 columnHeaderHeight,
                 GetDepth());
         }
 
-        public List<(C1TableCell header, int RowIndex)> CreateRowHedears(int cellHeight, int repeart)
+        public int CreateRowHedears(C1Table table,int columnHeaderHeight)
         {
-            var list = new List<(C1TableCell, int)>();
             int rowIndex = 0;
             int maxDepth = GetDepth();
 
-            foreach (var cell in Children)
+            for (int i = 0; i < _repeat; i++)
             {
-                cell.CreateRowHedear(list,  rowIndex, cellHeight, maxDepth);
-                rowIndex += cell.GetNodesCount()* cellHeight;
+                foreach (var cell in Children)
+                {
+                    cell.CreateRowHedear(table, rowIndex, _unitSize, maxDepth, columnHeaderHeight);
+                    rowIndex += cell.GetSpanSum() * _unitSize;
+                }
             }
-            return list;
+            return rowIndex;
         }
 
-        public int GainRepeat(int repeat)
+        public List<(C1TableCell header, int RowIndex)> CreateColumnHedears()
         {
-            return repeat;
+          throw new NotImplementedException();
+        }
+
+        int IContainer.CreateColumnHedears(C1Table table,int rowIndex)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int CreateColumnContainerTitles(C1Table table, int rowIndex)
+        {
+            throw new NotImplementedException();
         }
     }
 }

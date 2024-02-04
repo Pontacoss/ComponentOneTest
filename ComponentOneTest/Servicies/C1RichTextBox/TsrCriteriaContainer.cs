@@ -59,7 +59,7 @@
 //            return 2;
 //        }
 
-//        public NodesCounter GetHeaderWidth(NodesCounter nodesCounter)
+//        public spanCounter GetHeaderWidth(spanCounter spanCounter)
 //        {
 //            throw new NotImplementedException();
 //        }
