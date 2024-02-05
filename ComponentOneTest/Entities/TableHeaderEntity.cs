@@ -4,13 +4,13 @@
     {
         public int Id { get; }
         public int Parent { get; }
-        public string? Name { get; }
+        public string? Name { get;  }
         public int Level { get; }
-        public int Span { get; private set; } = 1;
-        public bool IsTitleVisible { get; }
-        public bool IsMeasurementItem { get; }
-        public bool IsRepeat { get; }
-
+        public int Span { get; set; } = 1;
+        public bool IsTitleVisible { get; set; }
+        public bool IsMeasurementItem { get; set; }
+        public bool IsRepeat { get; set; }
+        public bool IsColumn { get; set; }
         /// <summary>
         /// Headerクラス用のコンストラクタ
         /// </summary>

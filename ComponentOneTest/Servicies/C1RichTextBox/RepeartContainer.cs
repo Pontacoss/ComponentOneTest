@@ -48,7 +48,7 @@ namespace ComponentOneTest.Servicies.C1RichTextBox
                 GetDepth());
         }
 
-        public int CreateRowHedears(C1Table table, int columnHeaderHeight)
+        public int CreateRowHedears(C1TableRowGroup rows, int columnHeaderHeight)
         {
             int rowIndex = 0;
             int maxDepth = GetDepth();
@@ -57,13 +57,13 @@ namespace ComponentOneTest.Servicies.C1RichTextBox
             {
                 foreach (var cell in Children)
                 {
-                    cell.CreateRowHedear(table, rowIndex, _unitSize, maxDepth, columnHeaderHeight);
+                    cell.CreateRowHedear(rows, rowIndex, _unitSize, maxDepth, columnHeaderHeight);
                     rowIndex += cell.GetSpanSum() * _unitSize;
                 }
             }
             return rowIndex;
         }
-        public int CreateColumnHedears(C1Table table,int rowIndex)
+        public int CreateColumnHedears(C1TableRowGroup rows, int rowIndex)
         {
             int maxDepth = GetDepth();
 
@@ -72,32 +72,27 @@ namespace ComponentOneTest.Servicies.C1RichTextBox
                 foreach (var cell in Children)
                 {
                     rowIndex = cell.CreateColumnHedear(
-                        table, rowIndex, _unitSize, maxDepth);
+                        rows, rowIndex, _unitSize, maxDepth);
                 }
             }
             return maxDepth;
         }
 
-        public int CreateColumnContainerTitles(C1Table table, int rowIndex)
+        public int CreateColumnContainerTitles(C1TableRowGroup rows, int rowIndex)
         {
             if(!IsTitleVisible) return 0;
 
-            var row = table.RowGroups[0].Children.First(x => x.Index == rowIndex);
+            var row = rows.First(x => x.Index == rowIndex);
             int rowSpan = 1;
             int columnSpan = GetSpanSum()*_unitSize;
 
             for (int i = 0; i < _repeat; i++)
             {
-                var cell = RichTextBoxTools.CreateColumnHeaderCell(
+                row.Children.Add(
+                    RichTextBoxTools.CreateColumnHeaderTitleCell(
                         ToString(),
                         rowSpan,
-                        columnSpan);
-
-                cell.Background = Brushes.LightGray;
-                cell.FontWeight = FontWeights.Bold;
-                cell.TextAlignment = C1TextAlignment.Center;
-                cell.VerticalAlignment = C1VerticalAlignment.Middle;
-                row.Children.Add(cell);
+                        columnSpan));
             }
             return 1;
         }

@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace ComponentOneTest.Servicies.C1RichTextBox
 {
-    public sealed class TsrHeader : HeaderBase
+    public sealed class Header : HeaderBase
     {
-        public TsrHeader(TableHeaderEntity headerEntity):base(headerEntity) { }
+        public Header(TableHeaderEntity headerEntity):base(headerEntity) { }
     
     }
 }

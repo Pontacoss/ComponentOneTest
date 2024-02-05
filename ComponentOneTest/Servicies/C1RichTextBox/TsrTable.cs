@@ -11,10 +11,6 @@ namespace ComponentOneTest.Servicies.C1RichTextBox
     public sealed class TsrTable : C1Table
     {
         public TsrTable() :base(){ }
-        
-
-        
-            
 
     }
 }

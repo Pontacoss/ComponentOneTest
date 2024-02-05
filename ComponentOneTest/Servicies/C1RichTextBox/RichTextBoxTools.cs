@@ -3,6 +3,7 @@ using System.Windows;
 using ComponentOneTest.Entities;
 using System.Windows.Media;
 using ComponentOneTest.Servicies.C1RichTextBox;
+using System.Windows.Documents;
 
 namespace ComponentOneTest.Serviceis.C1RichTextBox
 {
@@ -39,6 +40,23 @@ namespace ComponentOneTest.Serviceis.C1RichTextBox
             var cell = CreateCell(name, new TsrHeaderCell());
 
             cell.RowSpan = rowSpan;
+            cell.ColumnSpan = columnSpan;
+            cell.Background = Brushes.LightGray;
+            cell.TextAlignment = C1TextAlignment.Center;
+            cell.VerticalAlignment = C1VerticalAlignment.Middle;
+
+            return cell;
+        }
+        internal static C1TableCell CreateColumnHeaderTitleCell(
+            string? name,
+            int rowSpan,
+            int columnSpan)
+        {
+
+            var cell = CreateCell(name, new TsrHeaderCell());
+
+            cell.RowSpan = rowSpan;
+            cell.FontWeight = FontWeights.Bold;
             cell.ColumnSpan = columnSpan;
             cell.Background = Brushes.LightGray;
             cell.TextAlignment = C1TextAlignment.Center;
@@ -164,7 +182,7 @@ namespace ComponentOneTest.Serviceis.C1RichTextBox
                     }
                     else
                     {
-                        parent.Add(new TsrHeader(entity));
+                        parent.Add(new Header(entity));
                     }
                 }
                 else
@@ -213,11 +231,11 @@ namespace ComponentOneTest.Serviceis.C1RichTextBox
 
         private static void CreateCellHeaderArea(
             TableContent tableContent,
-            C1Table c1Table,
+            C1TableRowGroup rows,
             int columnHeaderHeight)
         {
             if (tableContent.RowHeaders == null) return;
-            var row = c1Table.RowGroups[0].Rows.First(x => x.Index == 0);
+            var row = rows.First(x => x.Index == 0);
             foreach (var container in tableContent.RowHeaders.OfType<IContainer>())
             {
                 row.Children.Add(container.CreateCellHeader(columnHeaderHeight));
@@ -245,7 +263,7 @@ namespace ComponentOneTest.Serviceis.C1RichTextBox
 
         private static void CreateRowHeaderArea(
             TableContent tableContent,
-            C1Table table,
+            C1TableRowGroup rows,
             SpanCounter spanCounter,
             int columnHeaderHeight)
         {
@@ -266,7 +284,7 @@ namespace ComponentOneTest.Serviceis.C1RichTextBox
             // Container毎にRowHeaderを作成
             foreach (var container in tableContent.RowHeaders.OfType<IContainer>())
             {
-                container.CreateRowHedears(table, columnHeaderHeight);
+                container.CreateRowHedears(rows, columnHeaderHeight);
                 //foreach (var item in list)
                 //{
                 //    var row = table.RowGroups[0].Rows.First(
@@ -278,14 +296,14 @@ namespace ComponentOneTest.Serviceis.C1RichTextBox
 
         
         private static void CreateDataCellArea(
-            C1Table c1Table,
+           C1TableRowGroup rows,
             int rowHeaderWidth,
             int columnHeaderHeight,
             int columnHeaderWidth)
         {
             for (int i = 0; i < rowHeaderWidth; i++)
             {
-                var row = c1Table.RowGroups[0].Children.First(
+                var row = rows.First(
                     x => x.Index == i + columnHeaderHeight);
                 for (int j = 0; j < columnHeaderWidth; j++)
                 {
@@ -341,7 +359,7 @@ namespace ComponentOneTest.Serviceis.C1RichTextBox
 
         private static void CreateColumnHeaderArea(
             TableContent tableContent,
-            C1Table table,
+            C1TableRowGroup rows,
             SpanCounter spanCounter,
             int columnHeaderHeight)
         {
@@ -359,8 +377,8 @@ namespace ComponentOneTest.Serviceis.C1RichTextBox
             var rowIndex = 0;
             foreach (var container in tableContent.ColumnHeaders.OfType<IContainer>())
             {
-                rowIndex += container.CreateColumnContainerTitles(table, rowIndex);
-                rowIndex += container.CreateColumnHedears(table, rowIndex);
+                rowIndex += container.CreateColumnContainerTitles(rows, rowIndex);
+                rowIndex += container.CreateColumnHedears(rows, rowIndex);
 
                 //foreach (var item in list)
                 //{
@@ -504,9 +522,9 @@ namespace ComponentOneTest.Serviceis.C1RichTextBox
             c1Table.RowGroups.Add(rg);
 
             // CellHeaderの作成
-            CreateCellHeaderArea(tableContent, c1Table, columnHeaderHeight);
+            CreateCellHeaderArea(tableContent, rg, columnHeaderHeight);
             // RowHeaderの作成
-            CreateRowHeaderArea(tableContent, c1Table, rowSpanCounter, columnHeaderHeight);
+            CreateRowHeaderArea(tableContent, rg, rowSpanCounter, columnHeaderHeight);
 
 
             
@@ -526,13 +544,13 @@ namespace ComponentOneTest.Serviceis.C1RichTextBox
             // ColumnHeaderの作成
             CreateColumnHeaderArea(
                 tableContent, 
-                c1Table,
+                rg,
                 columnSpanCounter,
                 columnHeaderHeight);
 
             // DataCellの作成
             CreateDataCellArea(
-                c1Table,
+                rg,
                 rowHeaderWidth,
                 columnHeaderHeight,
                 columnHeaderWidth);

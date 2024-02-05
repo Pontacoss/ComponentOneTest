@@ -68,16 +68,16 @@ namespace ComponentOneTest.Servicies.C1RichTextBox
         }
 
         public int CreateRowHedear(
-            C1Table table,
+            C1TableRowGroup rows,
             int rowIndex,
-            int repeatHeaderCount,
+            int unitSize,
             int maxDepth,
             int columnHeaderHeight)
         {
-            var rowSpan = GetSpanSum() * repeatHeaderCount;
+            var rowSpan = GetSpanSum() * unitSize;
             var columnSpan = Children.Count > 0 ? 1 : maxDepth - Level + 1;
 
-            var row = table.RowGroups[0].Rows.First(
+            var row = rows.First(
                        x => x.Index == rowIndex + columnHeaderHeight);
 
             row.Children.Add(RichTextBoxTools.CreateRowHeaderCell(
@@ -89,21 +89,20 @@ namespace ComponentOneTest.Servicies.C1RichTextBox
             foreach (var cell in Children)
             {
                 rowIndexSub += cell.CreateRowHedear(
-                    table, rowIndexSub, repeatHeaderCount, maxDepth, columnHeaderHeight);
+                    rows, rowIndexSub, unitSize, maxDepth, columnHeaderHeight);
             }
             return rowSpan;
         }
         public int CreateColumnHedear(
-            C1Table table,
+            C1TableRowGroup rows,
             int rowIndex,
-            int repeatHeaderCount,
+            int unitSize,
             int maxDepth)
         {
-            var columnSpan = GetSpanSum() * repeatHeaderCount;
+            var columnSpan = GetSpanSum() * unitSize;
             var rowSpan = Children.Count > 0 ? 1 : maxDepth - Level + 1;
 
-            var row = table.RowGroups[0].Rows.First(
-                        x => x.Index == rowIndex);
+            var row = rows.First(x => x.Index == rowIndex);
             row.Children.Add(
                 RichTextBoxTools.CreateColumnHeaderCell(
                     Name,
@@ -113,7 +112,7 @@ namespace ComponentOneTest.Servicies.C1RichTextBox
             foreach (var cell in Children)
             {
                 rowIndexSub = cell.CreateColumnHedear(
-                    table, rowIndexSub, repeatHeaderCount, maxDepth);
+                    rows, rowIndexSub, unitSize, maxDepth);
             }
             return rowIndex;
         }

@@ -26,10 +26,9 @@ namespace ComponentOneTest.Servicies.C1RichTextBox
         public int SetRepeat(int repeat);
 
         C1TableCell CreateCellHeader(int columnHeaderHeight);
-        int CreateRowHedears(C1Table table,int columnHeaderHeight);
-        int CreateColumnHedears(C1Table table,int rowIndex);
-
-        int CreateColumnContainerTitles(C1Table table, int rowIndex);
+        int CreateRowHedears(C1TableRowGroup rows,int columnHeaderHeight);
+        int CreateColumnHedears(C1TableRowGroup rows, int rowIndex);
+        int CreateColumnContainerTitles(C1TableRowGroup rows, int rowIndex);
 
     }
 }

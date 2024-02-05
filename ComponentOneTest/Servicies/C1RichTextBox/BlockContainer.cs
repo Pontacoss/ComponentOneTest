@@ -39,7 +39,7 @@ namespace ComponentOneTest.Servicies.C1RichTextBox
                 GetDepth());
         }
 
-        public int CreateRowHedears(C1Table table,int columnHeaderHeight)
+        public int CreateRowHedears(C1TableRowGroup rows, int columnHeaderHeight)
         {
             int rowIndex = 0;
             int maxDepth = GetDepth();
@@ -48,7 +48,7 @@ namespace ComponentOneTest.Servicies.C1RichTextBox
             {
                 foreach (var cell in Children)
                 {
-                    cell.CreateRowHedear(table, rowIndex, _unitSize, maxDepth, columnHeaderHeight);
+                    cell.CreateRowHedear(rows, rowIndex, _unitSize, maxDepth, columnHeaderHeight);
                     rowIndex += cell.GetSpanSum() * _unitSize;
                 }
             }
@@ -60,12 +60,12 @@ namespace ComponentOneTest.Servicies.C1RichTextBox
           throw new NotImplementedException();
         }
 
-        int IContainer.CreateColumnHedears(C1Table table,int rowIndex)
+        int IContainer.CreateColumnHedears(C1TableRowGroup rows, int rowIndex)
         {
             throw new NotImplementedException();
         }
 
-        public int CreateColumnContainerTitles(C1Table table, int rowIndex)
+        public int CreateColumnContainerTitles(C1TableRowGroup rows, int rowIndex)
         {
             throw new NotImplementedException();
         }
