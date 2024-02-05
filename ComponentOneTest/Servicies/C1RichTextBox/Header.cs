@@ -1,4 +1,5 @@
 ﻿using C1.WPF.RichTextBox.Documents;
+using ComponentOneTest.Entities;
 using ComponentOneTest.Serviceis.C1RichTextBox;
 using System;
 using System.Collections.Generic;
@@ -8,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace ComponentOneTest.Servicies.C1RichTextBox
 {
-    public sealed class TsrTable : C1Table
+    public sealed class Header : HeaderBase
     {
-        public TsrTable() :base(){ }
-
+        public Header(TableHeaderEntity headerEntity):base(headerEntity) { }
+    
     }
 }

@@ -4,6 +4,8 @@ using ComponentOneTest.Serviceis.C1RichTextBox;
 using ComponentOneTest.Entities;
 using System.Windows;
 using ComponentOneTest.Servicies.C1RichTextBox;
+using System.Windows.Controls;
+using System.Collections.ObjectModel;
 
 namespace ComponentOneTest
 {
@@ -29,12 +31,23 @@ namespace ComponentOneTest
     /// </summary>
     public partial class Window2 : Window
     {
-        private List<TsrHeaderContainer> _headers = new();
+        public ObservableCollection<TableHeaderEntity> ContainerList 
+            = new ObservableCollection<TableHeaderEntity>();
+        public ObservableCollection<TableHeaderEntity> CriteriaList
+            = new ObservableCollection<TableHeaderEntity>();
         public Window2()
         {
             InitializeComponent();
             rtb.ViewMode = C1.WPF.RichTextBox.TextViewMode.Draft;
             rtb.Zoom = 1.5;
+
+           
+            TableHeaderFake.GetData(1).FindAll(x => x.Parent == 0).ForEach(x=>ContainerList.Add(x));
+            ContainerDataGrid.ItemsSource = ContainerList;
+
+            TableHeaderFake.GetData(0).FindAll(x => x.Parent == 0).ForEach(x => CriteriaList.Add(x));
+            CriteriaDataGrid.ItemsSource = CriteriaList;
+
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -84,21 +97,53 @@ namespace ComponentOneTest
             //var cell = row.Children[0] as C1TableCell;
             //cell.RowSpan = 2;
 
-            var data1 = RichTextBoxTools.GetItemSource(TableHeaderFake.GetData(1));
-            var data2 = RichTextBoxTools.GetItemSource(TableHeaderFake.GetData(0));
+            var containerList = new List<TableHeaderEntity>();
+            var gridList = ContainerList.ToList();
+            var allList = TableHeaderFake.GetData(1);
+            foreach (var item in allList)
+            {
+                var container = gridList.FirstOrDefault(x => x.Id == item.Id);
+                if (container == null)
+                {
+                    containerList.Add(item);
+                }
+                else
+                {
+                    containerList.Add((TableHeaderEntity)container);
+                }
+            }
+            var criteriaList = new List<TableHeaderEntity>();
+            gridList = criteriaList.ToList();
+            allList = TableHeaderFake.GetData(0);
+            foreach (var item in allList)
+            {
+                var criteria = gridList.FirstOrDefault(x => x.Id == item.Id);
+                if (criteria == null)
+                {
+                    criteriaList.Add(item);
+                }
+                else
+                {
+                    criteriaList.Add((TableHeaderEntity)criteria);
+                }
+            }
+            var data1 = RichTextBoxTools.GetItemSource(containerList);
+            var data2 = RichTextBoxTools.GetItemSource(criteriaList);
 
-            tv1.ItemsSource = data1;
-            tv2.ItemsSource = data2;
-            var ds =new List<ITsrHeader>();
-            var ds1 = data1.ToList();
-            var ds2 = data2.ToList();
-            ds1.ForEach(x => ds.Add(x));
-            ds2.ForEach(x => ds.Add(x));
+            CheckDataGrid.ItemsSource = containerList;
 
-            tv3.ItemsSource = RichTextBoxTools.CreateColumnDataStructure(ds);
-            tv4.ItemsSource = RichTextBoxTools.CreateColumnDataStructure(data2);
+            //tv1.ItemsSource = data1;
+            //tv2.ItemsSource = data2;
+            //var ds =new List<HeaderBase>();
+            //var ds1 = data1.ToList();
+            //var ds2 = data2.ToList();
+            //ds1.ForEach(x => ds.Add(x));
+            //ds2.ForEach(x => ds.Add(x));
 
-            var table = new TableContent("name",data1, data2);
+            //tv3.ItemsSource = RichTextBoxTools.CreateColumnDataStructure(ds);
+            //tv4.ItemsSource = RichTextBoxTools.CreateColumnDataStructure(data2);
+
+            var table = new TableContent("name", data1, data2);
 
             var tsrTable = RichTextBoxTools.CreateTable(table);
             rtb.Document.Blocks.Clear();
@@ -117,25 +162,37 @@ namespace ComponentOneTest
 
         private void GetDataButton_Click(object sender, RoutedEventArgs e)
         {
-            if( rtb.Selection.Cells.Count()>0)
-            {
-                var cell = rtb.Selection.Cells.First();
-                if (cell is not TsrDataCell) return;
+            //if( rtb.Selection.Cells.Count()>0)
+            //{
+            //    var cell = rtb.Selection.Cells.First();
+            //    if (cell is not TsrDataCell) return;
 
                 
-                var parent = cell.Parent;
+            //    var parent = cell.Parent;
                 
-                int counter1 = 0;
-                foreach(var rw in parent.Parent.Children)
-                {
-                    if (rw.Children.Count(x => x.GetType() == typeof(TsrDataCell)) > 0) 
-                        counter1++;
-                    if (rw.Index == parent.Index) break;
-                };
+            //    int counter1 = 0;
+            //    foreach(var rw in parent.Parent.Children)
+            //    {
+            //        if (rw.Children.Count(x => x.GetType() == typeof(TsrDataCell)) > 0) 
+            //            counter1++;
+            //        if (rw.Index == parent.Index) break;
+            //    };
                 
-                int counter =  parent.Children.OfType<TsrDataCell>().Count(x=>x.Index<= cell.Index);
-                tb1.Text = $"Row:{counter1},Column:{counter}";
-            }
+            //    int counter =  parent.Children.OfType<TsrDataCell>().Count(x=>x.Index<= cell.Index);
+            //    tb1.Text = $"Row:{counter1},Column:{counter}";
+            //}
+        }
+
+        private void CriteriaButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ContainerDataGrid_SelectedCellsChanged(object sender, System.Windows.Controls.SelectedCellsChangedEventArgs e)
+        {
+            if (ContainerDataGrid.SelectedItem == null) return;
+
+            var item = ContainerDataGrid.SelectedItem as TableHeaderEntity;
         }
     }
 }

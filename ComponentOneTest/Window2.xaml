@@ -12,7 +12,8 @@
     <DockPanel LastChildFill="True">
         <Button Name="Button" Content="button" Height="30" Width="120" DockPanel.Dock="Bottom" Click="Button_Click"/>
         
-        <c1:C1RichTextBoxRibbon VerticalAlignment="Top" DockPanel.Dock="Top" SelectedIndex="2" RichTextBox="{Binding ElementName=rtb}">
+        <c1:C1RichTextBoxRibbon VerticalAlignment="Top" DockPanel.Dock="Top" SelectedIndex="2"
+                                RichTextBox="{Binding ElementName=rtb}">
             <c1:RibbonTabItem Header="Home">
                 <c1:RibbonGroup Header="Edit">
                     <c1:C1PasteTool/>
@@ -165,7 +166,233 @@
                 </c1:RibbonGroup>
             </c1:RibbonTabItem>
         </c1:C1RichTextBoxRibbon>
-        <StackPanel Orientation="Horizontal" DockPanel.Dock="Left" Width="600">
+        <Grid >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="450"/>
+                <ColumnDefinition Width="450"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="300"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <DockPanel Grid.Row="0" Grid.Column="0" LastChildFill="True">
+                <StackPanel  Orientation="Horizontal"  DockPanel.Dock="Top">
+                    <TextBlock Text="Criteria :" VerticalAlignment="Center"  Margin="5"/>
+                    <TextBox Name="CriteriaTextBox" Margin="5" Width=" 250" Height="30"/>
+                    <Button Content="Add" Name="CriteriaButton" Margin="5" Width=" 100" Height="30" Click="CriteriaButton_Click"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom">
+                    <DataGrid Name="CriteriaDataGrid" Margin="5"
+                            HorizontalScrollBarVisibility="Auto"
+                            AutoGenerateColumns="False" 
+                            CanUserAddRows="False" 
+                            CanUserDeleteRows="False"
+                            CanUserResizeRows="False"
+                            CanUserResizeColumns="False"
+                            SelectionUnit="FullRow" 
+                            CanUserSortColumns="False"
+                            CanUserReorderColumns="False"
+                            SelectionMode="Extended">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="条件名" Binding="{Binding Name}">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="VerticalAlignment" Value="Center"/>
+                                        <Setter Property="HorizontalAlignment" Value="Center"/>
+                                        <Setter Property="IsEnabled" Value="False"/>
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+
+                            <DataGridCheckBoxColumn Header="Position" Binding="{Binding IsColumn}">
+                                <DataGridCheckBoxColumn.ElementStyle>
+                                    <Style TargetType="CheckBox">
+                                        <Setter Property="VerticalAlignment" Value="Center"/>
+                                        <Setter Property="HorizontalAlignment" Value="Center"/>
+                                    </Style>
+                                </DataGridCheckBoxColumn.ElementStyle>
+                            </DataGridCheckBoxColumn>
+                            <DataGridCheckBoxColumn Header="Title" Binding="{Binding IsTitleVisible}">
+                                <DataGridCheckBoxColumn.ElementStyle>
+                                    <Style TargetType="CheckBox">
+                                        <Setter Property="VerticalAlignment" Value="Center"/>
+                                        <Setter Property="HorizontalAlignment" Value="Center"/>
+                                    </Style>
+                                </DataGridCheckBoxColumn.ElementStyle>
+                            </DataGridCheckBoxColumn>
+                            <DataGridCheckBoxColumn Header="Criteria" Binding="{Binding IsMeasurementItem}">
+                                <DataGridCheckBoxColumn.ElementStyle>
+                                    <Style TargetType="CheckBox">
+                                        <Setter Property="VerticalAlignment" Value="Center"/>
+                                        <Setter Property="HorizontalAlignment" Value="Center"/>
+                                    </Style>
+                                </DataGridCheckBoxColumn.ElementStyle>
+                            </DataGridCheckBoxColumn>
+                            <DataGridCheckBoxColumn Header="Repeat" Binding="{Binding IsRepeat}">
+                                <DataGridCheckBoxColumn.ElementStyle>
+                                    <Style TargetType="CheckBox">
+                                        <Setter Property="VerticalAlignment" Value="Center"/>
+                                        <Setter Property="HorizontalAlignment" Value="Center"/>
+                                    </Style>
+                                </DataGridCheckBoxColumn.ElementStyle>
+                            </DataGridCheckBoxColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </StackPanel>
+            </DockPanel>
+            <DockPanel Grid.Row="1" Grid.Column="0" LastChildFill="True">
+                    <StackPanel  Orientation="Horizontal"  DockPanel.Dock="Top">
+                        <TextBlock Text="Container :" VerticalAlignment="Center"  Margin="5"/>
+                        <TextBox Name="ContainerTextBox" Margin="5" Width=" 250" Height="30"/>
+                        <Button Content="Add" Name="ContainerButton" Margin="5" Width=" 100" Height="30"/>
+                    </StackPanel>
+                    <DataGrid Name="ContainerDataGrid" DockPanel.Dock="Bottom" Margin="5"
+                          HorizontalScrollBarVisibility="Auto"
+                          AutoGenerateColumns="False" 
+                          CanUserAddRows="False" 
+                          CanUserDeleteRows="False"
+                          CanUserResizeRows="False"
+                          CanUserResizeColumns="False"
+                          SelectionUnit="FullRow" 
+                          CanUserSortColumns="False"
+                          CanUserReorderColumns="False"
+                          SelectionMode="Extended"
+                              ItemsSource="{Binding ContainerList}"
+                          SelectedItem="{Binding SelectedContainer}"
+                          SelectedCellsChanged="ContainerDataGrid_SelectedCellsChanged">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="条件名" Binding="{Binding Name}" IsReadOnly="True">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="VerticalAlignment" Value="Center"/>
+                                        <Setter Property="HorizontalAlignment" Value="Center"/>
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+
+                            <DataGridTextColumn Header="Span" Binding="{Binding Span}" >
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Margin" Value="5"/>
+                                        <Setter Property="VerticalAlignment" Value="Center"/>
+                                        <Setter Property="HorizontalAlignment" Value="Center"/>
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+
+                        <DataGridCheckBoxColumn Header="Position" 
+                                                Binding="{Binding IsColumn, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                <DataGridCheckBoxColumn.ElementStyle>
+                                    <Style TargetType="CheckBox">
+                                        <Setter Property="VerticalAlignment" Value="Center"/>
+                                        <Setter Property="HorizontalAlignment" Value="Center"/>
+                                    </Style>
+                                </DataGridCheckBoxColumn.ElementStyle>
+                            </DataGridCheckBoxColumn>
+                        <DataGridCheckBoxColumn Header="Title" 
+                                                Binding="{Binding IsTitleVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                <DataGridCheckBoxColumn.ElementStyle>
+                                    <Style TargetType="CheckBox">
+                                        <Setter Property="VerticalAlignment" Value="Center"/>
+                                        <Setter Property="HorizontalAlignment" Value="Center"/>
+                                    </Style>
+                                </DataGridCheckBoxColumn.ElementStyle>
+                            </DataGridCheckBoxColumn>
+                        <DataGridCheckBoxColumn Header="Criteria" 
+                                                Binding="{Binding IsMeasurementItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                <DataGridCheckBoxColumn.ElementStyle>
+                                    <Style TargetType="CheckBox">
+                                        <Setter Property="VerticalAlignment" Value="Center"/>
+                                        <Setter Property="HorizontalAlignment" Value="Center"/>
+                                    </Style>
+                                </DataGridCheckBoxColumn.ElementStyle>
+                            </DataGridCheckBoxColumn>
+                            <DataGridCheckBoxColumn Header="Repeat" 
+                                                    Binding="{Binding IsRepeat, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                <DataGridCheckBoxColumn.ElementStyle>
+                                    <Style TargetType="CheckBox">
+                                        <Setter Property="VerticalAlignment" Value="Center"/>
+                                        <Setter Property="HorizontalAlignment" Value="Center"/>
+                                    </Style>
+                                </DataGridCheckBoxColumn.ElementStyle>
+                            </DataGridCheckBoxColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+
+                </DockPanel>
+            <DataGrid Name="CheckDataGrid" DockPanel.Dock="Bottom" Margin="5"
+                      Grid.Row="1" Grid.Column="1"
+                      HorizontalScrollBarVisibility="Auto"
+                      AutoGenerateColumns="False" 
+                      CanUserAddRows="True" 
+                      CanUserDeleteRows="True"
+                      CanUserResizeRows="True"
+                      CanUserResizeColumns="True"
+                      SelectionUnit="FullRow" 
+                      CanUserSortColumns="True"
+                      CanUserReorderColumns="False"
+                      SelectionMode="Extended"
+                      
+                      SelectedItem="{Binding SelectedContainer}"
+                      SelectedCellsChanged="ContainerDataGrid_SelectedCellsChanged">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="条件名" Binding="{Binding Name}" IsReadOnly="True">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="VerticalAlignment" Value="Center"/>
+                                <Setter Property="HorizontalAlignment" Value="Center"/>
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+
+                    <DataGridTextColumn Header="Span" Binding="{Binding Span}" >
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="Margin" Value="5"/>
+                                <Setter Property="VerticalAlignment" Value="Center"/>
+                                <Setter Property="HorizontalAlignment" Value="Center"/>
+                                <Setter Property="IsEnabled" Value="False"/>
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+
+                    <DataGridCheckBoxColumn Header="Position" Binding="{Binding IsColumn}">
+                        <DataGridCheckBoxColumn.ElementStyle>
+                            <Style TargetType="CheckBox">
+                                <Setter Property="VerticalAlignment" Value="Center"/>
+                                <Setter Property="HorizontalAlignment" Value="Center"/>
+                            </Style>
+                        </DataGridCheckBoxColumn.ElementStyle>
+                    </DataGridCheckBoxColumn>
+                    <DataGridCheckBoxColumn Header="Title" Binding="{Binding IsTitleVisible}">
+                        <DataGridCheckBoxColumn.ElementStyle>
+                            <Style TargetType="CheckBox">
+                                <Setter Property="VerticalAlignment" Value="Center"/>
+                                <Setter Property="HorizontalAlignment" Value="Center"/>
+                            </Style>
+                        </DataGridCheckBoxColumn.ElementStyle>
+                    </DataGridCheckBoxColumn>
+                    <DataGridCheckBoxColumn Header="Criteria" Binding="{Binding IsMeasurementItem}">
+                        <DataGridCheckBoxColumn.ElementStyle>
+                            <Style TargetType="CheckBox">
+                                <Setter Property="VerticalAlignment" Value="Center"/>
+                                <Setter Property="HorizontalAlignment" Value="Center"/>
+                            </Style>
+                        </DataGridCheckBoxColumn.ElementStyle>
+                    </DataGridCheckBoxColumn>
+                    <DataGridCheckBoxColumn Header="Repeat" Binding="{Binding IsRepeat, Mode=TwoWay}" >
+                        <DataGridCheckBoxColumn.ElementStyle>
+                            <Style TargetType="CheckBox">
+                                <Setter Property="VerticalAlignment" Value="Center"/>
+                                <Setter Property="HorizontalAlignment" Value="Center"/>
+                            </Style>
+                        </DataGridCheckBoxColumn.ElementStyle>
+                    </DataGridCheckBoxColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+        <!--<StackPanel Orientation="Horizontal" DockPanel.Dock="Left" Width="600">
             <StackPanel Orientation="Vertical" Width="300">
                 <TreeView Name="tv1" Height="300" >
                     <TreeView.ItemTemplate>
@@ -206,7 +433,7 @@
                 <TextBlock Name="tb1" Width="300" Height="80"/>
                 <Button Name="GetDataButton" Content="GetData" Click="GetDataButton_Click"/>
             </StackPanel>
-        </StackPanel>
+        </StackPanel>-->
         <c1:C1RichTextBox Name="rtb" DockPanel.Dock="Right"/>
     </DockPanel>
 </Window>

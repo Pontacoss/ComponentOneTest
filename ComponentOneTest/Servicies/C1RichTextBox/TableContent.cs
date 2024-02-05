@@ -3,12 +3,12 @@
     public sealed class TableContent
     {
         public string TableName { get; }
-        public IEnumerable<ITsrHeader>? RowHeaders { get; }
-        public IEnumerable<ITsrHeader> ColumnHeaders { get; }
+        public IEnumerable<HeaderBase>? RowHeaders { get; }
+        public IEnumerable<HeaderBase> ColumnHeaders { get; }
 
         public TableContent(string tableName,
-            IList<ITsrHeader>? rowHeaders,
-            IList<ITsrHeader> columnHeaders)
+            IList<HeaderBase>? rowHeaders,
+            IList<HeaderBase> columnHeaders)
         {
             TableName = tableName;
             RowHeaders = rowHeaders;
