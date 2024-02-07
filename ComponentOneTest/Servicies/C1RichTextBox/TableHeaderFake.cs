@@ -9,19 +9,18 @@ namespace ComponentOneTest.Serviceis.C1RichTextBox
             var result = new List<TableHeaderEntity>();
             if (selector == 0)
             {
-                
 
-                var entity111 = new TableHeaderEntity(111, "試験項目", true, true, true);
+                var entity111 = new TableHeaderEntity(111, "試験項目", false, true, true);
                 result.Add(entity111);
-                var entity = new TableHeaderEntity(entity111, 10, "トルクパターン", true, true, true);
+                var entity = new TableHeaderEntity(entity111,10, "トルクパターン", true, true, true);
                 result.Add(entity);
                 result.Add(new TableHeaderEntity(entity, 11, "基準値", 1));
                 result.Add(new TableHeaderEntity(entity, 12, "公差", 1));
 
-                var entity25 = new TableHeaderEntity(entity111, 250, "パターン2", true, true, true);
-                result.Add(entity25);
-                result.Add(new TableHeaderEntity(entity25, 251, "基準値", 1));
-                result.Add(new TableHeaderEntity(entity25, 252, "公差", 1));
+                //var entity25 = new TableHeaderEntity(entity111,250, "パターン2", true, true, true);
+                //result.Add(entity25);
+                //result.Add(new TableHeaderEntity(entity25, 251, "基準値", 1));
+                //result.Add(new TableHeaderEntity(entity25, 252, "公差", 1));
 
 
 
@@ -39,25 +38,22 @@ namespace ComponentOneTest.Serviceis.C1RichTextBox
                 result.Add(new TableHeaderEntity(entity31, 221, "45%", 1));
                 result.Add(new TableHeaderEntity(entity31, 231, "75%", 1));
 
-                var entity4 = new TableHeaderEntity(30, "試験条件2\n車輪径", true, false, true);
-                result.Add(entity4);
-                result.Add(new TableHeaderEntity(entity4, 311, "820", 1));
-                result.Add(new TableHeaderEntity(entity4, 312, "860", 1));
+                //var entity4 = new TableHeaderEntity(30, "試験条件2\n車輪径", true, false, true);
+                //result.Add(entity4);
+                //result.Add(new TableHeaderEntity(entity4, 311, "820", 1));
+                //result.Add(new TableHeaderEntity(entity4, 312, "860", 1));
 
-                var entity5 = new TableHeaderEntity(40, "試験条件3\nFM(Hz)", true, false, true);
-                result.Add(entity5);
-                result.Add(new TableHeaderEntity(entity5, 411, "10", 1));
-                result.Add(new TableHeaderEntity(entity5, 412, "20", 1));
+                //var entity5 = new TableHeaderEntity(40, "試験条件3\nFM(Hz)", true, false, true);
+                //result.Add(entity5);
+                //result.Add(new TableHeaderEntity(entity5, 411, "10", 1));
+                //result.Add(new TableHeaderEntity(entity5, 412, "20", 1));
 
                 //var entity = new TableHeaderEntity(10, "トルクパターン", true, true, true);
                 //result.Add(entity);
                 //result.Add(new TableHeaderEntity(entity, 11, "基準値", 1));
                 //result.Add(new TableHeaderEntity(entity, 12, "公差", 1));
 
-                var entity222 = new TableHeaderEntity(entity6, 20, "試験項目2\nパターン2", true, true);
-                result.Add(entity222);
-                result.Add(new TableHeaderEntity(entity222, 21, "基準値"));
-                result.Add(new TableHeaderEntity(entity222, 22, "公差"));
+        
 
 
 

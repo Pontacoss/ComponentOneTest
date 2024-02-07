@@ -46,7 +46,7 @@ class CriteriaContainer : HeaderBase, IContainer
                 GetDepth());
         }
 
-        public int CreateRowHedears(C1TableRowGroup rows, int columnHeaderHeight)
+        public int CreateRowHeaders(C1TableRowGroup rows, int columnHeaderHeight)
         {
             int rowIndex = 0;
             int maxDepth = GetDepth();
@@ -55,13 +55,13 @@ class CriteriaContainer : HeaderBase, IContainer
             {
                 foreach (var cell in Children)
                 {
-                    cell.CreateRowHedear(rows, rowIndex, _unitSize, maxDepth, columnHeaderHeight);
+                    cell.CreateRowHeader(rows, rowIndex, _unitSize, maxDepth, columnHeaderHeight);
                     rowIndex += cell.GetSpanSum() * _unitSize;
                 }
             }
             return rowIndex;
         }
-        public int CreateColumnHedears(C1TableRowGroup rows, int rowIndex)
+        public int CreateColumnHeaders(C1TableRowGroup rows, int rowIndex)
         {
             int maxDepth = GetDepth();
 
@@ -69,7 +69,7 @@ class CriteriaContainer : HeaderBase, IContainer
             {
                 foreach (var cell in Children)
                 {
-                    rowIndex = cell.CreateColumnHedear(
+                    rowIndex = cell.CreateColumnHeader(
                         rows, rowIndex, _unitSize, maxDepth);
                 }
             }

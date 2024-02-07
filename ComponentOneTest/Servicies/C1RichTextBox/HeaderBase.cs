@@ -14,13 +14,49 @@ namespace ComponentOneTest.Servicies.C1RichTextBox
     {
         protected TableHeaderEntity _headerEntity;
 
-        public bool IsTitleVisible => _headerEntity.IsTitleVisible;
-        public bool IsMeasurementItem => _headerEntity.IsMeasurementItem;
-        public bool IsRepeat => _headerEntity.IsRepeat;
+        public bool IsColumn
+        {
+            get => _headerEntity.IsColumn;
+            set
+            {
+                _headerEntity.IsColumn = value;
+            }
+        }
+        public bool IsTitleVisible
+        {
+            get => _headerEntity.IsTitleVisible;
+            set
+            {
+                _headerEntity.IsTitleVisible = value;
+            }
+        }
+        public bool IsMeasurementItem 
+        { 
+            get => _headerEntity.IsMeasurementItem; 
+            set
+            {
+                _headerEntity.IsMeasurementItem=value;
+            } 
+        }
+        public bool IsRepeat 
+        {   
+            get => _headerEntity.IsRepeat; 
+            set
+            {
+                _headerEntity.IsRepeat = value;
+            }
+        }
         public int Id => _headerEntity.Id;
         public int Level => _headerEntity.Level;
         public string? Name => _headerEntity.Name;
-        public int Span => _headerEntity.Span;
+        public int Span
+        {
+            get => _headerEntity.Span;
+            set
+            {
+                _headerEntity.Span = value;
+            }
+        }
         public IList<HeaderBase> Children { get; }
             = new List<HeaderBase>();
 
@@ -53,7 +89,6 @@ namespace ComponentOneTest.Servicies.C1RichTextBox
             {
                 return Span;
             }
-
             int counter = 0;
             foreach (var item in Children)
             {
@@ -67,7 +102,7 @@ namespace ComponentOneTest.Servicies.C1RichTextBox
             return _headerEntity;
         }
 
-        public int CreateRowHedear(
+        public int CreateRowHeader(
             C1TableRowGroup rows,
             int rowIndex,
             int unitSize,
@@ -88,12 +123,12 @@ namespace ComponentOneTest.Servicies.C1RichTextBox
             var rowIndexSub = rowIndex;
             foreach (var cell in Children)
             {
-                rowIndexSub += cell.CreateRowHedear(
+                rowIndexSub += cell.CreateRowHeader(
                     rows, rowIndexSub, unitSize, maxDepth, columnHeaderHeight);
             }
             return rowSpan;
         }
-        public int CreateColumnHedear(
+        public int CreateColumnHeader(
             C1TableRowGroup rows,
             int rowIndex,
             int unitSize,
@@ -111,7 +146,7 @@ namespace ComponentOneTest.Servicies.C1RichTextBox
             var rowIndexSub = rowIndex + 1;
             foreach (var cell in Children)
             {
-                rowIndexSub = cell.CreateColumnHedear(
+                rowIndexSub = cell.CreateColumnHeader(
                     rows, rowIndexSub, unitSize, maxDepth);
             }
             return rowIndex;

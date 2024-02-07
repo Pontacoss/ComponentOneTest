@@ -3,14 +3,30 @@
     public sealed class TableHeaderEntity
     {
         public int Id { get; }
-        public int Parent { get; }
+        public int Parent { get; set; }
         public string? Name { get;  }
-        public int Level { get; }
+        public int Level { get; set; }
         public int Span { get; set; } = 1;
-        public bool IsTitleVisible { get; set; }
-        public bool IsMeasurementItem { get; set; }
-        public bool IsRepeat { get; set; }
-        public bool IsColumn { get; set; }
+        public bool IsTitleVisible { get; set; } = false;
+        public bool IsMeasurementItem { get; set; } = false;
+        public bool IsRepeat { get; set; } = false;
+        public bool IsColumn { get; set; } = false;
+        public TableHeaderEntity(int id, string name)
+        {
+            Name = name;
+            Parent = 0;
+            Level = 0;
+            Span = 1;
+            Id = id;
+        }
+        public TableHeaderEntity(int id,string name,int parentId,int level)
+        {
+            Name = name;
+            Parent = parentId;
+            Level = level+1;
+            Span = 1;
+            Id = id;
+        }
         /// <summary>
         /// Headerクラス用のコンストラクタ
         /// </summary>
@@ -73,10 +89,10 @@
         }
 
         public TableHeaderEntity(
-            TableHeaderEntity? parent, int id, string title, bool isTitleVisible, bool isMeasurementItem)
+            TableHeaderEntity? parent, int id, string name, bool isTitleVisible, bool isMeasurementItem)
         {
             Id = id;
-            Title = title;
+            Name = name;
             Parent = parent != null ? parent.Id : 0;
             Level = parent != null ? parent.Level + 1 : 0;
             IsTitleVisible = isTitleVisible;

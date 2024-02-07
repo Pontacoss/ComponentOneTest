@@ -5,6 +5,8 @@ using System.Windows.Media;
 using ComponentOneTest.Servicies.C1RichTextBox;
 using System.Windows.Documents;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using ComponentOneTest.ViewModelEntities;
 
 namespace ComponentOneTest.Serviceis.C1RichTextBox
 {
@@ -79,6 +81,8 @@ namespace ComponentOneTest.Serviceis.C1RichTextBox
         {
             var cell = CreateCell(name, new TsrHeaderCell());
             cell.VerticalAlignment = C1VerticalAlignment.Middle;
+            cell.RowSpan = rowSpan;
+            cell.ColumnSpan= columnSpan;
 
             if (name == null) return cell;
             char[] chars = name.ToCharArray();
@@ -170,7 +174,7 @@ namespace ComponentOneTest.Serviceis.C1RichTextBox
         //    return table;
         //}
 
-        public static IList<HeaderBase> GetItemSource(List<TableHeaderEntity> list)
+        public static List<HeaderBase> GetItemSource(IList<TableHeaderEntity> list)
         {
             var source = new List<HeaderBase>();
 
@@ -205,6 +209,32 @@ namespace ComponentOneTest.Serviceis.C1RichTextBox
                 }
             }
             return source;
+        }
+
+        public static List<TableHeaderEntity> GetEntities(IList<TableHeaderVMEntity> list, TableHeaderVMEntity? parent)
+        {
+            var entities = new List<TableHeaderEntity>();
+            foreach (var item in list)
+            {
+                var entity = item.GetEntity();
+
+                if (parent != null)
+                {
+                    if (entity.Parent != parent.Id)
+                    {
+                        entity.Parent = parent.Id;
+                        entity.Level = parent.Level + 1;
+                    }
+                }
+
+
+                entities.Add(entity);
+                if (item.Children.Count > 0)
+                {
+                    entities.AddRange(GetEntities(item.Children, item));
+                }
+            }
+            return entities;
         }
 
         public static HeaderBase? GetParent(IList<HeaderBase> list, int parentId)
@@ -287,7 +317,7 @@ namespace ComponentOneTest.Serviceis.C1RichTextBox
             // Container毎にRowHeaderを作成
             foreach (var container in tableContent.RowHeaders.OfType<IContainer>())
             {
-                container.CreateRowHedears(rows, columnHeaderHeight);
+                container.CreateRowHeaders(rows, columnHeaderHeight);
                 //foreach (var item in list)
                 //{
                 //    var row = table.RowGroups[0].Rows.First(
@@ -381,7 +411,7 @@ namespace ComponentOneTest.Serviceis.C1RichTextBox
             foreach (var container in tableContent.ColumnHeaders.OfType<IContainer>())
             {
                 rowIndex += container.CreateColumnContainerTitles(rows, rowIndex);
-                rowIndex += container.CreateColumnHedears(rows, rowIndex);
+                rowIndex += container.CreateColumnHeaders(rows, rowIndex);
 
                 //foreach (var item in list)
                 //{
@@ -572,58 +602,58 @@ namespace ComponentOneTest.Serviceis.C1RichTextBox
             return c1Table;
         }
 
-        public static IList<HeaderBase> CreateColumnDataStructure(IList<HeaderBase> container)
-        {
-            var columnDS = new List<HeaderBase>();
-            //foreach (var header in container[0].Children)
-            //    //{
-            //    //    columnDS.Add(CombineContainer(header));
-            //    //}
-            //    columnDS.Add(CombineContainer(container[0]));
+        //public static IList<HeaderBase> CreateColumnDataStructure(IList<HeaderBase> container)
+        //{
+        //    var columnDS = new List<HeaderBase>();
+        //    //foreach (var header in container[0].Children)
+        //    //    //{
+        //    //    //    columnDS.Add(CombineContainer(header));
+        //    //    //}
+        //    //    columnDS.Add(CombineContainer(container[0]));
 
-            //    for (int i = 1; i < container.Count(); i++)
-            //    {
-            //        foreach (var ds in columnDS)
-            //        {
-            //            CombineContainer2(ds, container[i]);
-            //        }
-            //    }
-            //    return columnDS;
-            //}
+        //    //    for (int i = 1; i < container.Count(); i++)
+        //    //    {
+        //    //        foreach (var ds in columnDS)
+        //    //        {
+        //    //            CombineContainer2(ds, container[i]);
+        //    //        }
+        //    //    }
+        //    //    return columnDS;
+        //    //}
 
-            //private static void CombineContainer2(ITsrHeader dataStructure, ITsrHeader container )
-            //{
-            //    if (dataStructure.Children.Count == 0)
-            //    {
-            //        dataStructure.Children.Add(CombineContainer(container));
-            //    }
-            //    else
-            //    {
-            //        foreach (var child in dataStructure.Children)
-            //        {
-            //            CombineContainer2(child, container);
-            //        }
-            //    }
-            //}
+        //    //private static void CombineContainer2(ITsrHeader dataStructure, ITsrHeader container )
+        //    //{
+        //    //    if (dataStructure.Children.Count == 0)
+        //    //    {
+        //    //        dataStructure.Children.Add(CombineContainer(container));
+        //    //    }
+        //    //    else
+        //    //    {
+        //    //        foreach (var child in dataStructure.Children)
+        //    //        {
+        //    //            CombineContainer2(child, container);
+        //    //        }
+        //    //    }
+        //    //}
 
-            //private static ITsrHeader CombineContainer(ITsrHeader header)
-            //{
-            //    ITsrHeader ds;
-            //    if (header is TsrHeaderContainer)
-            //    {
-            //        ds = new TsrHeaderContainer(header.GetEntity());
-            //    }
-            //    else
-            //    {
-            //        ds = new TsrHeader(header.GetEntity());
-            //    }
+        //    //private static ITsrHeader CombineContainer(ITsrHeader header)
+        //    //{
+        //    //    ITsrHeader ds;
+        //    //    if (header is TsrHeaderContainer)
+        //    //    {
+        //    //        ds = new TsrHeaderContainer(header.GetEntity());
+        //    //    }
+        //    //    else
+        //    //    {
+        //    //        ds = new TsrHeader(header.GetEntity());
+        //    //    }
 
-            //    foreach (var child in header.Children)
-            //    {
-            //        ds.Children.Add(CombineContainer(child));
-            //    }
-            return columnDS;
-        }
+        //    //    foreach (var child in header.Children)
+        //    //    {
+        //    //        ds.Children.Add(CombineContainer(child));
+        //    //    }
+        //    return columnDS;
+        //}
     }
 }
 
