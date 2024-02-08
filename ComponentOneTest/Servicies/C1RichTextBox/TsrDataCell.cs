@@ -10,6 +10,11 @@ namespace ComponentOneTest.Servicies.C1RichTextBox
 {
     public sealed class TsrDataCell : C1TableCell
     {
+        public string? Conditions { get; }
         public TsrDataCell() : base() { }
+        public TsrDataCell(string? condition) : base() 
+        {
+            Conditions = condition;
+        }
     }
 }

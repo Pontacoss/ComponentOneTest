@@ -1,6 +1,7 @@
 ﻿using C1.WPF.RichTextBox.Documents;
 using ComponentOneTest.Entities;
 using ComponentOneTest.Serviceis.C1RichTextBox;
+using System.Text;
 
 namespace ComponentOneTest.Servicies.C1RichTextBox
 {
@@ -68,6 +69,16 @@ namespace ComponentOneTest.Servicies.C1RichTextBox
         public int CreateColumnContainerTitles(C1TableRowGroup rows, int rowIndex)
         {
             throw new NotImplementedException();
+        }
+
+        public string GetConditionString(int Index)
+        {
+            return GetConditionStringRecursive(Index, _unitSize);
+        }
+
+        public override string DisplayName()
+        {
+            return "[" + Name?.Replace("\n", "-") + "] : ";
         }
     }
 }

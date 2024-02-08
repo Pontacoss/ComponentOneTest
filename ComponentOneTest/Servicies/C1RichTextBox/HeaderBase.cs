@@ -30,17 +30,17 @@ namespace ComponentOneTest.Servicies.C1RichTextBox
                 _headerEntity.IsTitleVisible = value;
             }
         }
-        public bool IsMeasurementItem 
-        { 
-            get => _headerEntity.IsMeasurementItem; 
+        public bool IsMeasurementItem
+        {
+            get => _headerEntity.IsMeasurementItem;
             set
             {
-                _headerEntity.IsMeasurementItem=value;
-            } 
+                _headerEntity.IsMeasurementItem = value;
+            }
         }
-        public bool IsRepeat 
-        {   
-            get => _headerEntity.IsRepeat; 
+        public bool IsRepeat
+        {
+            get => _headerEntity.IsRepeat;
             set
             {
                 _headerEntity.IsRepeat = value;
@@ -69,6 +69,8 @@ namespace ComponentOneTest.Servicies.C1RichTextBox
         {
             return Name ?? "";
         }
+
+        public abstract string DisplayName();
 
         public void Add(HeaderBase tableHeader)
         {
@@ -151,5 +153,25 @@ namespace ComponentOneTest.Servicies.C1RichTextBox
             }
             return rowIndex;
         }
+        protected string GetConditionStringRecursive(int Index, int unitSize, int counter = 0)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append(DisplayName());
+
+            var subCounter = 0;
+            foreach (var header in Children)
+            {
+                var width = header.GetSpanSum() * unitSize;
+                counter += width;
+                if (counter >= Index)
+                {
+                    sb.Append(header.GetConditionStringRecursive(Index, unitSize, subCounter));
+                    break;
+                }
+                subCounter += width;
+            }
+            return sb.ToString();
+        }
+
     }
 }

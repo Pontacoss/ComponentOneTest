@@ -1,12 +1,10 @@
 ﻿using C1.WPF.RichTextBox.Documents;
-using System.Windows;
 using ComponentOneTest.Entities;
-using System.Windows.Media;
 using ComponentOneTest.Servicies.C1RichTextBox;
-using System.Windows.Documents;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using ComponentOneTest.ViewModelEntities;
+using System.Text;
+using System.Windows;
+using System.Windows.Media;
 
 namespace ComponentOneTest.Serviceis.C1RichTextBox
 {
@@ -23,7 +21,7 @@ namespace ComponentOneTest.Serviceis.C1RichTextBox
                     Margin = new Thickness(0)
                 });
             paragraph.Padding = new Thickness(0);
-            paragraph.Margin = new Thickness(5);
+            paragraph.Margin = new Thickness(2);
             cell.Children.Add(paragraph);
 
             cell.BorderThickness = new Thickness(1);
@@ -34,7 +32,7 @@ namespace ComponentOneTest.Serviceis.C1RichTextBox
         }
         private static C1TableCell CreateDataCell(string? name)
         {
-            var cell = CreateCell(name, new TsrDataCell());
+            var cell = CreateCell(string.Empty, new TsrDataCell(name));
             cell.TextAlignment = C1TextAlignment.Right;
             cell.VerticalAlignment = C1VerticalAlignment.Middle;
             return cell;
@@ -226,8 +224,6 @@ namespace ComponentOneTest.Serviceis.C1RichTextBox
                         entity.Level = parent.Level + 1;
                     }
                 }
-
-
                 entities.Add(entity);
                 if (item.Children.Count > 0)
                 {
@@ -329,6 +325,7 @@ namespace ComponentOneTest.Serviceis.C1RichTextBox
 
         
         private static void CreateDataCellArea(
+            TableContent tableContent,
            C1TableRowGroup rows,
             int rowHeaderWidth,
             int columnHeaderHeight,
@@ -340,7 +337,9 @@ namespace ComponentOneTest.Serviceis.C1RichTextBox
                     x => x.Index == i + columnHeaderHeight);
                 for (int j = 0; j < columnHeaderWidth; j++)
                 {
-                    row.Children.Add(CreateDataCell(" "));
+                    var conditions = GetConditionString(tableContent.RowHeaders ,i+1);
+                    var conditions1 = GetConditionString(tableContent.ColumnHeaders, j + 1);
+                    row.Children.Add(CreateDataCell(conditions+conditions1));
                 }
             }
         }
@@ -420,7 +419,6 @@ namespace ComponentOneTest.Serviceis.C1RichTextBox
                 //    row.Children.Add(item.header);
                 //}
             }
-            // todo
             //IEnumerable<HeaderBase> tsrHeaderContainers=
             //    tableContent.ColumnHeaders.OfType<HeaderBase>();
 
@@ -520,9 +518,67 @@ namespace ComponentOneTest.Serviceis.C1RichTextBox
             return maxDepth;
         }
 
-        public static TsrTable CreateTable(TableContent tableContent)
+        private static void CriteriaSetting(
+            TableHeaderVMEntity criteriaSubContainer,
+            bool? documentType)
         {
+            criteriaSubContainer.Children.Clear();
+            criteriaSubContainer.Add(new TableHeaderVMEntity(
+                new TableHeaderEntity(
+                    Convert.ToInt32(criteriaSubContainer.Id + "1"),
+                    "基準値",
+                    criteriaSubContainer.Id,
+                    criteriaSubContainer.Level)));
+            if (documentType == true)
+            {
+                criteriaSubContainer.Add(new TableHeaderVMEntity(
+                    new TableHeaderEntity(
+                        Convert.ToInt32(criteriaSubContainer.Id + "2"),
+                        "公差",
+                        criteriaSubContainer.Id,
+                        criteriaSubContainer.Level)));
+            }
+            else
+            {
+                criteriaSubContainer.Add(new TableHeaderVMEntity(
+                    new TableHeaderEntity(
+                         Convert.ToInt32(criteriaSubContainer.Id + "2"),
+                        "測定値",
+                        criteriaSubContainer.Id,
+                        criteriaSubContainer.Level)));
+                criteriaSubContainer.Add(new TableHeaderVMEntity(
+                        new TableHeaderEntity(
+                             Convert.ToInt32(criteriaSubContainer.Id + "3"),
+                            "判定",
+                            criteriaSubContainer.Id,
+                            criteriaSubContainer.Level)));
+            }
+        }
+
+        // todo VMEntityを外に出したい
+        public static TsrTable CreateTable(List<TableHeaderVMEntity> headerList, List<TableHeaderVMEntity> criteriaList,bool? documentType)
+        {
+            var entities = new List<TableHeaderEntity>();
+            var rowList = headerList.ToList().FindAll(x => x.IsColumn == false);
+
+            entities = RichTextBoxTools.GetEntities(rowList, null);
+            var rowHeaderList = RichTextBoxTools.GetItemSource(entities);
+
+            var criteriaMainContainer = new TableHeaderVMEntity(new TableHeaderEntity(1000, "試験項目", false, true, true));
             
+            foreach(var criteriaSubContainer in criteriaList)
+            {
+                CriteriaSetting(criteriaSubContainer, documentType);
+                criteriaMainContainer.Add(criteriaSubContainer);
+            }
+
+            var columnList = headerList.ToList().FindAll(x => x.IsColumn == true);
+            columnList.Add(criteriaMainContainer);
+
+            entities = RichTextBoxTools.GetEntities(columnList, null);
+            var data2 = RichTextBoxTools.GetItemSource(entities);
+
+            var tableContent = new TableContent("name", rowHeaderList, data2);
 
             if (tableContent.RowHeaders == null) return new TsrTable();
 
@@ -589,6 +645,7 @@ namespace ComponentOneTest.Serviceis.C1RichTextBox
 
             // DataCellの作成
             CreateDataCellArea(
+                tableContent,
                 rg,
                 rowHeaderWidth,
                 columnHeaderHeight,
@@ -654,7 +711,18 @@ namespace ComponentOneTest.Serviceis.C1RichTextBox
         //    //    }
         //    return columnDS;
         //}
-    }
+
+        public static string GetConditionString(IEnumerable<HeaderBase> HeaderList, int Index)
+        {
+            StringBuilder sb = new StringBuilder();
+            foreach (var header in HeaderList.OfType<IContainer>())
+            {
+                sb.Append(header.GetConditionString(Index));
+                sb.Append("\n");
+            }
+            return sb.ToString();
+        }
+}
 }
 
 

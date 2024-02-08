@@ -29,6 +29,7 @@ namespace ComponentOneTest.Servicies.C1RichTextBox
         int CreateRowHeaders(C1TableRowGroup rows,int columnHeaderHeight);
         int CreateColumnHeaders(C1TableRowGroup rows, int rowIndex);
         int CreateColumnContainerTitles(C1TableRowGroup rows, int rowIndex);
+        string GetConditionString(int Index);
 
     }
 }

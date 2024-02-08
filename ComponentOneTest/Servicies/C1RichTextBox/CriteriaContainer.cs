@@ -94,5 +94,18 @@ class CriteriaContainer : HeaderBase, IContainer
             }
             return 1;
         }
+
+        public string GetConditionString(int Index)
+        {
+            int width = GetSpanSum() * _unitSize;
+            Index = Index % width;
+            if (Index == 0) Index = width;
+
+            return GetConditionStringRecursive(Index, _unitSize);
+        }
+        public override string DisplayName()
+        {
+            return "[" + Name?.Replace("\n", "-") + "] : ";
+        }
     }
 }
