@@ -68,7 +68,7 @@ namespace ComponentOneTest.Servicies.C1RichTextBox
 
         public int CreateColumnContainerTitles(C1TableRowGroup rows, int rowIndex)
         {
-            throw new NotImplementedException();
+            return 0;
         }
 
         public string GetConditionString(int Index)

@@ -227,6 +227,10 @@
                             </DataGridCheckBoxColumn>
                         </DataGrid.Columns>
                     </DataGrid>
+                    <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center" >
+                        <RadioButton Content="Row" Margin="10" />
+                        <RadioButton Name="CriteriaPositionRadioButton"  Content="Column" Margin="10" />
+                    </StackPanel>
                 </StackPanel>
             </DockPanel>
             <DockPanel Grid.Row="1" Grid.Column="0" LastChildFill="True">

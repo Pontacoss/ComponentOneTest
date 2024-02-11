@@ -68,5 +68,62 @@ namespace ComponentOneTest.ViewModelEntities
         {
             return _entity;
         }
+
+        public static List<TableHeaderEntity> GetEntities(IList<TableHeaderVMEntity> list, TableHeaderVMEntity? parent)
+        {
+            var entities = new List<TableHeaderEntity>();
+            foreach (var item in list)
+            {
+                var entity = item.GetEntity();
+
+                if (parent != null)
+                {
+                    entity.Parent = parent.Id;
+                    entity.Level = parent.Level + 1;
+                    entity.IsColumn = parent.IsColumn;
+                    entity.IsMeasurementItem = parent.IsMeasurementItem;
+                    entity.IsRepeat = parent.IsRepeat;
+                }
+                entities.Add(entity);
+                if (item.Children.Count > 0)
+                {
+                    entities.AddRange(GetEntities(item.Children, item));
+                }
+            }
+            return entities;
+        }
+        public static TableHeaderVMEntity? SeekParent(List<TableHeaderVMEntity> entities, int parentId)
+        {
+            foreach (var entity in entities)
+            {
+                if (entity.Id == parentId)
+                {
+                    return entity;
+                }
+                else
+                {
+                    var result = SeekParent(entity.Children.ToList(), parentId);
+                    if (result != null) return result;
+                }
+            }
+            return null;
+        }
+        public static List<TableHeaderVMEntity> ConvertToVMEntities(List<TableHeaderEntity> entities)
+        {
+            List<TableHeaderVMEntity> vmEntities = new();
+            foreach (var entity in entities)
+            {
+                var parent = SeekParent(vmEntities, entity.Parent);
+                if (parent == null)
+                {
+                    vmEntities.Add(new TableHeaderVMEntity(entity));
+                }
+                else
+                {
+                    parent.Add(new TableHeaderVMEntity(entity, parent));
+                }
+            }
+            return vmEntities;
+        }
     }
 }

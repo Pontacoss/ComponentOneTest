@@ -22,54 +22,22 @@ namespace ComponentOneTest
 
         private TsrDataCell? targetCell;
 
-        private TableHeaderVMEntity? SeekParent(List<TableHeaderVMEntity> entities,int parentId)
-        {
-            foreach(var entity in entities)
-            {
-                if(entity.Id == parentId)
-                {
-                    return entity;
-                }
-                else
-                {
-                    var result = SeekParent(entity.Children.ToList(), parentId);
-                    if(result != null) return result;
-                }
-            }
-            return null;
-        }
-        private List<TableHeaderVMEntity> ConvertToVMEntities(List<TableHeaderEntity> entities)
-        {
-            List<TableHeaderVMEntity> vmEntities = new();
-            foreach (var entity in entities)
-            {
-                var parent = SeekParent(vmEntities,entity.Parent);
-                if (parent == null)
-                { 
-                    vmEntities.Add(new TableHeaderVMEntity(entity)); 
-                }
-                else
-                {
-                    parent.Add(new TableHeaderVMEntity(entity, parent));
-                }
-            }
-            return vmEntities;
-        }
+        
         public Window2()
         {
             InitializeComponent();
             rtb.ViewMode = TextViewMode.Draft;
             rtb.Zoom = 1.5;
 
+            CriteriaPositionRadioButton.IsChecked = true;
             SpecSheetRadioButton.IsChecked = true;
 
             var list = TableHeaderFake.GetData(1);
-            ConvertToVMEntities(list).ForEach(x => HeaderList.Add(x));
-
+            TableHeaderVMEntity.ConvertToVMEntities(list).ForEach(x => HeaderList.Add(x));
             ContainerDataGrid.ItemsSource = HeaderList.ToList().FindAll(x => x.Parent == 0);
 
             var list2 = TableHeaderFake.GetData(0);
-            ConvertToVMEntities(list2).ForEach(x => CriteriaList.Add(x));
+            TableHeaderVMEntity.ConvertToVMEntities(list2).ForEach(x => CriteriaList.Add(x));
             CriteriaDataGrid.ItemsSource = CriteriaList;
         }
 
@@ -77,14 +45,14 @@ namespace ComponentOneTest
         {
             tb1.Text = null;
             targetCell = null;
-
-            var tsrTable = RichTextBoxTools.CreateTable(
-                HeaderList.ToList(),
-                CriteriaList.ToList(),
-                SpecSheetRadioButton.IsChecked);
-
             rtb.Document.Blocks.Clear();
-            rtb.Document.Blocks.Add(tsrTable);
+            
+            rtb.Document.Blocks.Add(
+                RichTextBoxTools.CreateTable(
+                TableHeaderVMEntity.GetEntities(HeaderList.ToList(), null),
+                TableHeaderVMEntity.GetEntities(CriteriaList.ToList(), null),
+                SpecSheetRadioButton.IsChecked,
+                CriteriaPositionRadioButton.IsChecked));
         }
 
         private void ContainerDataGrid_SelectedCellsChanged(object sender, 
@@ -171,14 +139,12 @@ namespace ComponentOneTest
             // todo Criteria Sub Container の作り方検討
             var id = CriteriaList.Count * 100 + 1001;
             CriteriaList.Add( new TableHeaderVMEntity(
-                new TableHeaderEntity(id, CriteriaTextBox.Text, 1000, 1)));
+                new TableHeaderEntity(id, CriteriaTextBox.Text, 1000, 0)));
             //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
             CriteriaDataGrid.ItemsSource = CriteriaList;
             CriteriaTextBox.Text=string.Empty;
         }
-
-        
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {

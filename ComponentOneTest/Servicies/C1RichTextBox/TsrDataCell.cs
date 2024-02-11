@@ -1,4 +1,5 @@
 ﻿using C1.WPF.RichTextBox.Documents;
+using ComponentOneTest.Serviceis.C1RichTextBox;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,5 +17,6 @@ namespace ComponentOneTest.Servicies.C1RichTextBox
         {
             Conditions = condition;
         }
+
     }
 }
