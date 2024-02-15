@@ -9,9 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="C1.WPF.Core.Ja" Version="6.0.20232.607" />
-    <PackageReference Include="C1.WPF.RichTextBox.Ja" Version="6.0.20232.607" />
-    <PackageReference Include="C1.WPF.RichTextBox.Ribbon.Ja" Version="6.0.20232.607" />
+    <PackageReference Include="C1.WPF.Core.Ja" Version="8.0.20233.688" />
+    <PackageReference Include="C1.WPF.Grid.Ja" Version="8.0.20233.688" />
+    <PackageReference Include="C1.WPF.RichTextBox.Ja" Version="8.0.20233.688" />
+    <PackageReference Include="C1.WPF.RichTextBox.Ribbon.Ja" Version="8.0.20233.688" />
     <PackageReference Include="FreeSpire.Doc" Version="11.6.0" />
   </ItemGroup>
 

@@ -1,21 +1,20 @@
 ﻿using C1.WPF.RichTextBox.Documents;
-using ComponentOneTest.Serviceis.C1RichTextBox;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+using ComponentOneTest.Servicies.TableData;
 
 namespace ComponentOneTest.Servicies.C1RichTextBox
 {
     public sealed class TsrDataCell : C1TableCell
     {
-        public string? Conditions { get; }
+        private CellEntity _cellEntity;
+        public string? Conditions => _cellEntity.Conditions;
+        public int RowIndex => _cellEntity.RowIndex;
+        public int ColumnIndex => _cellEntity.ColumnIndex;
         public TsrDataCell() : base() { }
-        public TsrDataCell(string? condition) : base() 
+        public TsrDataCell(CellEntity cellEntity) : base() 
         {
-            Conditions = condition;
+            _cellEntity = cellEntity;
+            TextAlignment = C1TextAlignment.Right;
+            VerticalAlignment = C1VerticalAlignment.Middle;
         }
 
     }

@@ -5,168 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ComponentOneTest"
         xmlns:local2="clr-namespace:ComponentOneTest.ViewModelEntities"
-        xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml" x:Class="ComponentOneTest.Window2"
+        xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+        x:Class="ComponentOneTest.Window2"
         mc:Ignorable="d"
         Title="Window2" Height="800" Width="1500"
         WindowStartupLocation="CenterScreen" WindowState="Maximized">
     <DockPanel LastChildFill="True">
-        
-        
-        <c1:C1RichTextBoxRibbon VerticalAlignment="Top" DockPanel.Dock="Top" SelectedIndex="2"
-                                RichTextBox="{Binding ElementName=rtb}">
-            <c1:RibbonTabItem Header="Home">
-                <c1:RibbonGroup Header="Edit">
-                    <c1:C1PasteTool/>
-                    <c1:C1CutTool/>
-                    <c1:C1UndoTool/>
-                    <c1:C1ToolSeparator/>
-                    <c1:C1CopyTool/>
-                    <c1:C1RedoTool/>
-                    <c1:C1FormatPainterTool/>
-                </c1:RibbonGroup>
-                <c1:RibbonGroup Header="Font">
-                    <c1:C1ToolStrip>
-                        <c1:C1FontFamilyTool/>
-                        <c1:C1FontSizeTool/>
-                        <c1:C1IncreaseFontSizeTool/>
-                        <c1:C1DecreaseFontSizeTool/>
-                    </c1:C1ToolStrip>
-                    <c1:C1ToolStrip>
-                        <c1:C1BoldTool/>
-                        <c1:C1ItalicTool/>
-                        <c1:C1UnderlineTool/>
-                        <c1:C1StrikethroughTool/>
-                        <c1:C1ToolSeparator/>
-                        <c1:C1ChangeCaseTool/>
-                        <c1:C1SuperscriptTool/>
-                        <c1:C1SubscriptTool/>
-                        <c1:C1ToolSeparator/>
-                        <c1:C1FontColorTool/>
-                        <c1:C1TextHighlightTool/>
-                    </c1:C1ToolStrip>
-                </c1:RibbonGroup>
-                <c1:RibbonGroup Header="Paragraph">
-                    <c1:C1ToolStrip>
-                        <c1:C1LeftAlignTool/>
-                        <c1:C1CenterAlignTool/>
-                        <c1:C1RightAlignTool/>
-                        <c1:C1JustifyTool/>
-                        <c1:C1ToolSeparator/>
-                        <c1:C1BulletsTool/>
-                        <c1:C1NumberingTool/>
-                        <c1:C1ToolSeparator/>
-                        <c1:C1TextWrappingTool/>
-                    </c1:C1ToolStrip>
-                    <c1:C1ToolStrip>
-                        <c1:C1ParagraphColorTool/>
-                        <c1:C1BorderMenuTool/>
-                        <c1:C1MarginTool/>
-                        <c1:C1PaddingTool/>
-                        <c1:C1ToolSeparator/>
-                        <c1:C1LineSpacingTool/>
-                    </c1:C1ToolStrip>
-                </c1:RibbonGroup>
-                <c1:RibbonGroup Header="Insert">
-                    <c1:C1InsertImageTool/>
-                    <c1:C1InsertSymbolTool/>
-                    <c1:C1InsertHyperlinkTool/>
-                    <c1:C1RemoveHyperlinkTool/>
-                </c1:RibbonGroup>
-                <c1:RibbonGroup Header="Tools">
-                    <c1:RibbonGroup.GroupSizeDefinitions>
-                        <c1:RibbonGroupSizeDefinition>
-                            <c1:RibbonToolSizeDefinition Size="Large"/>
-                        </c1:RibbonGroupSizeDefinition>
-                    </c1:RibbonGroup.GroupSizeDefinitions>
-                    <c1:C1FindAndReplaceTool/>
-                </c1:RibbonGroup>
-            </c1:RibbonTabItem>
-            <c1:RibbonTabItem Header="Tables">
-                <c1:RibbonGroup Header="Table">
-                    <c1:RibbonGroup.GroupSizeDefinitions>
-                        <c1:RibbonGroupSizeDefinition>
-                            <c1:RibbonToolSizeDefinition Size="Large"/>
-                        </c1:RibbonGroupSizeDefinition>
-                    </c1:RibbonGroup.GroupSizeDefinitions>
-                    <c1:C1InsertTableTool/>
-                    <c1:C1SelectTableMenuTool/>
-                    <c1:C1ShowGridlinesTool/>
-                    <c1:C1TableWidthTool/>
-                </c1:RibbonGroup>
-                <c1:RibbonGroup Header="Rows And Columns">
-                    <c1:RibbonGroup.GroupSizeDefinitions>
-                        <c1:RibbonGroupSizeDefinition>
-                            <c1:RibbonToolSizeDefinition Size="Large"/>
-                        </c1:RibbonGroupSizeDefinition>
-                    </c1:RibbonGroup.GroupSizeDefinitions>
-                    <c1:C1DeleteTableMenuTool/>
-                    <c1:C1InsertColumnsLeftTool/>
-                    <c1:C1InsertColumnsRightTool/>
-                    <c1:C1InsertRowsAboveTool/>
-                    <c1:C1InsertRowsBelowTool/>
-                </c1:RibbonGroup>
-                <c1:RibbonGroup Header="Merge">
-                    <c1:RibbonGroup.GroupSizeDefinitions>
-                        <c1:RibbonGroupSizeDefinition>
-                            <c1:RibbonToolSizeDefinition Size="Large"/>
-                        </c1:RibbonGroupSizeDefinition>
-                    </c1:RibbonGroup.GroupSizeDefinitions>
-                    <c1:C1MergeCellsTool/>
-                    <c1:C1UnmergeCellTool/>
-                </c1:RibbonGroup>
-                <c1:RibbonGroup Header="Cell">
-                    <c1:RibbonGroup.GroupSizeDefinitions>
-                        <c1:RibbonGroupSizeDefinition>
-                            <c1:RibbonToolSizeDefinition Size="Small"/>
-                        </c1:RibbonGroupSizeDefinition>
-                    </c1:RibbonGroup.GroupSizeDefinitions>
-                    <c1:C1ColumnWidthTool/>
-                    <c1:C1RowHeightTool/>
-                    <c1:C1ToolSeparator/>
-                    <c1:C1TopAlignTool/>
-                    <c1:C1VerticalCenterAlignTool/>
-                    <c1:C1BottomAlignTool/>
-                </c1:RibbonGroup>
-            </c1:RibbonTabItem>
-            <c1:RibbonTabItem Header="View">
-                <c1:RibbonGroup Header="Document">
-                    <c1:RibbonGroup.GroupSizeDefinitions>
-                        <c1:RibbonGroupSizeDefinition>
-                            <c1:RibbonToolSizeDefinition Size="Large"/>
-                        </c1:RibbonGroupSizeDefinition>
-                    </c1:RibbonGroup.GroupSizeDefinitions>
-                    <c1:C1PrintViewTool/>
-                    <c1:C1DraftViewTool/>
-                </c1:RibbonGroup>
-                <c1:RibbonGroup Header="Zoom">
-                    <c1:RibbonGroup.GroupSizeDefinitions>
-                        <c1:RibbonGroupSizeDefinition>
-                            <c1:RibbonToolSizeDefinition Size="Large"/>
-                            <c1:RibbonToolSizeDefinition Size="Large"/>
-                            <c1:RibbonToolSizeDefinition Size="Large"/>
-                            <c1:RibbonToolSizeDefinition Size="Small"/>
-                            <c1:RibbonToolSizeDefinition Size="Small"/>
-                            <c1:RibbonToolSizeDefinition Size="Small"/>
-                        </c1:RibbonGroupSizeDefinition>
-                    </c1:RibbonGroup.GroupSizeDefinitions>
-                    <c1:C1ZoomInTool/>
-                    <c1:C1ZoomOutTool/>
-                    <c1:C1Zoom100PercentTool/>
-                    <c1:C1OnePageTool/>
-                    <c1:C1TwoPagesTool/>
-                    <c1:C1FitWidthTool/>
-                </c1:RibbonGroup>
-                <c1:RibbonGroup Header="Line Number">
-                    <c1:RibbonGroup.GroupSizeDefinitions>
-                        <c1:RibbonGroupSizeDefinition>
-                            <c1:RibbonToolSizeDefinition Size="Small"/>
-                        </c1:RibbonGroupSizeDefinition>
-                    </c1:RibbonGroup.GroupSizeDefinitions>
-                    <c1:C1LineNumberTool/>
-                </c1:RibbonGroup>
-            </c1:RibbonTabItem>
-        </c1:C1RichTextBoxRibbon>
-        <Grid >
+
+        <Grid Margin="5">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="380"/>
                 <ColumnDefinition Width="380"/>
@@ -234,12 +80,12 @@
                 </StackPanel>
             </DockPanel>
             <DockPanel Grid.Row="1" Grid.Column="0" LastChildFill="True">
-                    <StackPanel  Orientation="Horizontal"  DockPanel.Dock="Top">
-                        <TextBlock Text="Container :" VerticalAlignment="Center"  Margin="5"/>
-                        <TextBox Name="ContainerTextBox" Margin="5" Width=" 200" Height="30" FontSize="20"/>
-                        <Button Content="Add" Name="ContainerButton" Margin="5" Width=" 80" Height="30" Click="ContainerButton_Click"/>
-                    </StackPanel>
-                    <DataGrid Name="ContainerDataGrid" DockPanel.Dock="Bottom" Margin="5" FontSize="18"
+                <StackPanel  Orientation="Horizontal"  DockPanel.Dock="Top">
+                    <TextBlock Text="Container :" VerticalAlignment="Center"  Margin="5"/>
+                    <TextBox Name="ContainerTextBox" Margin="5" Width=" 200" Height="30" FontSize="20"/>
+                    <Button Content="Add" Name="ContainerButton" Margin="5" Width=" 80" Height="30" Click="ContainerButton_Click"/>
+                </StackPanel>
+                <DataGrid Name="ContainerDataGrid" DockPanel.Dock="Bottom" Margin="5" FontSize="18"
                           HorizontalScrollBarVisibility="Auto"
                           AutoGenerateColumns="False" 
                           CanUserAddRows="False" 
@@ -251,57 +97,57 @@
                           CanUserReorderColumns="False"
                           SelectionMode="Extended"
                           SelectedCellsChanged="ContainerDataGrid_SelectedCellsChanged">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="条件名" Binding="{Binding Name}" IsReadOnly="True">
-                                <DataGridTextColumn.ElementStyle>
-                                    <Style TargetType="TextBlock">
-                                        <Setter Property="VerticalAlignment" Value="Center"/>
-                                        <Setter Property="HorizontalAlignment" Value="Center"/>
-                                    </Style>
-                                </DataGridTextColumn.ElementStyle>
-                            </DataGridTextColumn>
-                            <DataGridTextColumn Header="Span" Binding="{Binding Span}" >
-                                <DataGridTextColumn.ElementStyle>
-                                    <Style TargetType="TextBlock">
-                                        <Setter Property="Margin" Value="5"/>
-                                        <Setter Property="VerticalAlignment" Value="Center"/>
-                                        <Setter Property="HorizontalAlignment" Value="Center"/>
-                                    </Style>
-                                </DataGridTextColumn.ElementStyle>
-                            </DataGridTextColumn>
-                            <DataGridCheckBoxColumn Header="Position" 
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="条件名" Binding="{Binding Name}" IsReadOnly="True">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="VerticalAlignment" Value="Center"/>
+                                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Header="Span" Binding="{Binding Span}" >
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Margin" Value="5"/>
+                                    <Setter Property="VerticalAlignment" Value="Center"/>
+                                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+                        <DataGridCheckBoxColumn Header="Position" 
                                                 Binding="{Binding IsColumn, Mode=TwoWay, 
                                                 UpdateSourceTrigger=PropertyChanged}">
-                                <DataGridCheckBoxColumn.ElementStyle>
-                                    <Style TargetType="CheckBox">
-                                        <Setter Property="VerticalAlignment" Value="Center"/>
-                                        <Setter Property="HorizontalAlignment" Value="Center"/>
-                                    </Style>
-                                </DataGridCheckBoxColumn.ElementStyle>
-                            </DataGridCheckBoxColumn>
-                            <DataGridCheckBoxColumn Header="Title" 
+                            <DataGridCheckBoxColumn.ElementStyle>
+                                <Style TargetType="CheckBox">
+                                    <Setter Property="VerticalAlignment" Value="Center"/>
+                                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                                </Style>
+                            </DataGridCheckBoxColumn.ElementStyle>
+                        </DataGridCheckBoxColumn>
+                        <DataGridCheckBoxColumn Header="Title" 
                                                 Binding="{Binding IsTitleVisible, Mode=TwoWay, 
                                                 UpdateSourceTrigger=PropertyChanged}">
-                                <DataGridCheckBoxColumn.ElementStyle>
-                                    <Style TargetType="CheckBox">
-                                        <Setter Property="VerticalAlignment" Value="Center"/>
-                                        <Setter Property="HorizontalAlignment" Value="Center"/>
-                                    </Style>
-                                </DataGridCheckBoxColumn.ElementStyle>
-                            </DataGridCheckBoxColumn>
-                            <DataGridCheckBoxColumn Header="Repeat" 
+                            <DataGridCheckBoxColumn.ElementStyle>
+                                <Style TargetType="CheckBox">
+                                    <Setter Property="VerticalAlignment" Value="Center"/>
+                                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                                </Style>
+                            </DataGridCheckBoxColumn.ElementStyle>
+                        </DataGridCheckBoxColumn>
+                        <DataGridCheckBoxColumn Header="Repeat" 
                                                     Binding="{Binding IsRepeat, Mode=TwoWay,
                                                     UpdateSourceTrigger=PropertyChanged}">
-                                <DataGridCheckBoxColumn.ElementStyle>
-                                    <Style TargetType="CheckBox">
-                                        <Setter Property="VerticalAlignment" Value="Center"/>
-                                        <Setter Property="HorizontalAlignment" Value="Center"/>
-                                    </Style>
-                                </DataGridCheckBoxColumn.ElementStyle>
-                            </DataGridCheckBoxColumn>
-                        </DataGrid.Columns>
-                    </DataGrid>
-                
+                            <DataGridCheckBoxColumn.ElementStyle>
+                                <Style TargetType="CheckBox">
+                                    <Setter Property="VerticalAlignment" Value="Center"/>
+                                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                                </Style>
+                            </DataGridCheckBoxColumn.ElementStyle>
+                        </DataGridCheckBoxColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+
             </DockPanel>
             <DockPanel Grid.Row="1" Grid.Column="1" LastChildFill="True">
                 <StackPanel  Orientation="Horizontal"  DockPanel.Dock="Top">
@@ -330,7 +176,7 @@
                 <Button Name="Button" Content="CreateTable" Height="50" Width="100" Click="Button_Click" Margin="10"/>
                 <Button Name="ClearButton" Content="CLEAR" Width="100" Height="50" Click="Button_Click_1"/>
                 <Button Name="GetDataButton" Content="GetData" Width="100" Height="50" Click="GetDataButton_Click" Margin="10"/>
-                
+
             </StackPanel>
             <TextBlock Name="tb1" Grid.Row="2" Grid.Column="1" />
         </Grid>
@@ -376,6 +222,170 @@
                 <Button Name="GetDataButton" Content="GetData" Click="GetDataButton_Click"/>
             </StackPanel>
         </StackPanel>-->
-        <c1:C1RichTextBox Name="rtb" DockPanel.Dock="Right"/>
+        <TabControl>
+            <TabItem Header="仕様書">
+                <DockPanel LastChildFill="True">
+                    <c1:C1RichTextBoxRibbon VerticalAlignment="Top" DockPanel.Dock="Top" SelectedIndex="2"
+                        RichTextBox="{Binding ElementName=rtb}">
+                        <c1:RibbonTabItem Header="Home">
+                            <c1:RibbonGroup Header="Edit">
+                                <c1:C1PasteTool/>
+                                <c1:C1CutTool/>
+                                <c1:C1UndoTool/>
+                                <c1:C1ToolSeparator/>
+                                <c1:C1CopyTool/>
+                                <c1:C1RedoTool/>
+                                <c1:C1FormatPainterTool/>
+                            </c1:RibbonGroup>
+                            <c1:RibbonGroup Header="Font">
+                                <c1:C1ToolStrip>
+                                    <c1:C1FontFamilyTool/>
+                                    <c1:C1FontSizeTool/>
+                                    <c1:C1IncreaseFontSizeTool/>
+                                    <c1:C1DecreaseFontSizeTool/>
+                                </c1:C1ToolStrip>
+                                <c1:C1ToolStrip>
+                                    <c1:C1BoldTool/>
+                                    <c1:C1ItalicTool/>
+                                    <c1:C1UnderlineTool/>
+                                    <c1:C1StrikethroughTool/>
+                                    <c1:C1ToolSeparator/>
+                                    <c1:C1ChangeCaseTool/>
+                                    <c1:C1SuperscriptTool/>
+                                    <c1:C1SubscriptTool/>
+                                    <c1:C1ToolSeparator/>
+                                    <c1:C1FontColorTool/>
+                                    <c1:C1TextHighlightTool/>
+                                </c1:C1ToolStrip>
+                            </c1:RibbonGroup>
+                            <c1:RibbonGroup Header="Paragraph">
+                                <c1:C1ToolStrip>
+                                    <c1:C1LeftAlignTool/>
+                                    <c1:C1CenterAlignTool/>
+                                    <c1:C1RightAlignTool/>
+                                    <c1:C1JustifyTool/>
+                                    <c1:C1ToolSeparator/>
+                                    <c1:C1BulletsTool/>
+                                    <c1:C1NumberingTool/>
+                                    <c1:C1ToolSeparator/>
+                                    <c1:C1TextWrappingTool/>
+                                </c1:C1ToolStrip>
+                                <c1:C1ToolStrip>
+                                    <c1:C1ParagraphColorTool/>
+                                    <c1:C1BorderMenuTool/>
+                                    <c1:C1MarginTool/>
+                                    <c1:C1PaddingTool/>
+                                    <c1:C1ToolSeparator/>
+                                    <c1:C1LineSpacingTool/>
+                                </c1:C1ToolStrip>
+                            </c1:RibbonGroup>
+                            <c1:RibbonGroup Header="Insert">
+                                <c1:C1InsertImageTool/>
+                                <c1:C1InsertSymbolTool/>
+                                <c1:C1InsertHyperlinkTool/>
+                                <c1:C1RemoveHyperlinkTool/>
+                            </c1:RibbonGroup>
+                            <c1:RibbonGroup Header="Tools">
+                                <c1:RibbonGroup.GroupSizeDefinitions>
+                                    <c1:RibbonGroupSizeDefinition>
+                                        <c1:RibbonToolSizeDefinition Size="Large"/>
+                                    </c1:RibbonGroupSizeDefinition>
+                                </c1:RibbonGroup.GroupSizeDefinitions>
+                                <c1:C1FindAndReplaceTool/>
+                            </c1:RibbonGroup>
+                        </c1:RibbonTabItem>
+                        <c1:RibbonTabItem Header="Tables">
+                            <c1:RibbonGroup Header="Table">
+                                <c1:RibbonGroup.GroupSizeDefinitions>
+                                    <c1:RibbonGroupSizeDefinition>
+                                        <c1:RibbonToolSizeDefinition Size="Large"/>
+                                    </c1:RibbonGroupSizeDefinition>
+                                </c1:RibbonGroup.GroupSizeDefinitions>
+                                <c1:C1InsertTableTool/>
+                                <c1:C1SelectTableMenuTool/>
+                                <c1:C1ShowGridlinesTool/>
+                                <c1:C1TableWidthTool/>
+                            </c1:RibbonGroup>
+                            <c1:RibbonGroup Header="Rows And Columns">
+                                <c1:RibbonGroup.GroupSizeDefinitions>
+                                    <c1:RibbonGroupSizeDefinition>
+                                        <c1:RibbonToolSizeDefinition Size="Large"/>
+                                    </c1:RibbonGroupSizeDefinition>
+                                </c1:RibbonGroup.GroupSizeDefinitions>
+                                <c1:C1DeleteTableMenuTool/>
+                                <c1:C1InsertColumnsLeftTool/>
+                                <c1:C1InsertColumnsRightTool/>
+                                <c1:C1InsertRowsAboveTool/>
+                                <c1:C1InsertRowsBelowTool/>
+                            </c1:RibbonGroup>
+                            <c1:RibbonGroup Header="Merge">
+                                <c1:RibbonGroup.GroupSizeDefinitions>
+                                    <c1:RibbonGroupSizeDefinition>
+                                        <c1:RibbonToolSizeDefinition Size="Large"/>
+                                    </c1:RibbonGroupSizeDefinition>
+                                </c1:RibbonGroup.GroupSizeDefinitions>
+                                <c1:C1MergeCellsTool/>
+                                <c1:C1UnmergeCellTool/>
+                            </c1:RibbonGroup>
+                            <c1:RibbonGroup Header="Cell">
+                                <c1:RibbonGroup.GroupSizeDefinitions>
+                                    <c1:RibbonGroupSizeDefinition>
+                                        <c1:RibbonToolSizeDefinition Size="Small"/>
+                                    </c1:RibbonGroupSizeDefinition>
+                                </c1:RibbonGroup.GroupSizeDefinitions>
+                                <c1:C1ColumnWidthTool/>
+                                <c1:C1RowHeightTool/>
+                                <c1:C1ToolSeparator/>
+                                <c1:C1TopAlignTool/>
+                                <c1:C1VerticalCenterAlignTool/>
+                                <c1:C1BottomAlignTool/>
+                            </c1:RibbonGroup>
+                        </c1:RibbonTabItem>
+                        <c1:RibbonTabItem Header="View">
+                            <c1:RibbonGroup Header="Document">
+                                <c1:RibbonGroup.GroupSizeDefinitions>
+                                    <c1:RibbonGroupSizeDefinition>
+                                        <c1:RibbonToolSizeDefinition Size="Large"/>
+                                    </c1:RibbonGroupSizeDefinition>
+                                </c1:RibbonGroup.GroupSizeDefinitions>
+                                <c1:C1PrintViewTool/>
+                                <c1:C1DraftViewTool/>
+                            </c1:RibbonGroup>
+                            <c1:RibbonGroup Header="Zoom">
+                                <c1:RibbonGroup.GroupSizeDefinitions>
+                                    <c1:RibbonGroupSizeDefinition>
+                                        <c1:RibbonToolSizeDefinition Size="Large"/>
+                                        <c1:RibbonToolSizeDefinition Size="Large"/>
+                                        <c1:RibbonToolSizeDefinition Size="Large"/>
+                                        <c1:RibbonToolSizeDefinition Size="Small"/>
+                                        <c1:RibbonToolSizeDefinition Size="Small"/>
+                                        <c1:RibbonToolSizeDefinition Size="Small"/>
+                                    </c1:RibbonGroupSizeDefinition>
+                                </c1:RibbonGroup.GroupSizeDefinitions>
+                                <c1:C1ZoomInTool/>
+                                <c1:C1ZoomOutTool/>
+                                <c1:C1Zoom100PercentTool/>
+                                <c1:C1OnePageTool/>
+                                <c1:C1TwoPagesTool/>
+                                <c1:C1FitWidthTool/>
+                            </c1:RibbonGroup>
+                            <c1:RibbonGroup Header="Line Number">
+                                <c1:RibbonGroup.GroupSizeDefinitions>
+                                    <c1:RibbonGroupSizeDefinition>
+                                        <c1:RibbonToolSizeDefinition Size="Small"/>
+                                    </c1:RibbonGroupSizeDefinition>
+                                </c1:RibbonGroup.GroupSizeDefinitions>
+                                <c1:C1LineNumberTool/>
+                            </c1:RibbonGroup>
+                        </c1:RibbonTabItem>
+                    </c1:C1RichTextBoxRibbon>
+                    <c1:C1RichTextBox Name="rtb" DockPanel.Dock="Right"/>
+                </DockPanel>
+            </TabItem>
+            <TabItem Header="成績書">
+                <c1:FlexGrid Name="fg" Margin="5"/>
+
+            </TabItem>
+        </TabControl>
     </DockPanel>
 </Window>

@@ -1,6 +1,6 @@
 ﻿using ComponentOneTest.Entities;
 
-namespace ComponentOneTest.Serviceis.C1RichTextBox
+namespace ComponentOneTest.Servicies.TableData
 {
     internal static class TableHeaderFake
     {
@@ -10,10 +10,10 @@ namespace ComponentOneTest.Serviceis.C1RichTextBox
             if (selector == 0)
             {
 
-                var entity = new TableHeaderEntity(1001, "トルクパターン",1000,0);
+                var entity = new TableHeaderEntity(1001, "トルクパターン", 1000, 0);
                 result.Add(entity);
 
-                var entity25 = new TableHeaderEntity(1101, "パターン2",1000,0);
+                var entity25 = new TableHeaderEntity(1101, "パターン2", 1000, 0);
                 result.Add(entity25);
 
 

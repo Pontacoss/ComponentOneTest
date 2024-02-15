@@ -1,11 +1,10 @@
 ﻿using C1.WPF.RichTextBox;
-using ComponentOneTest.Serviceis.C1RichTextBox;
 using ComponentOneTest.Entities;
 using System.Windows;
 using ComponentOneTest.Servicies.C1RichTextBox;
 using System.Collections.ObjectModel;
 using ComponentOneTest.ViewModelEntities;
-using System.Text;
+using ComponentOneTest.Servicies.TableData;
 
 namespace ComponentOneTest
 {
@@ -39,6 +38,7 @@ namespace ComponentOneTest
             var list2 = TableHeaderFake.GetData(0);
             TableHeaderVMEntity.ConvertToVMEntities(list2).ForEach(x => CriteriaList.Add(x));
             CriteriaDataGrid.ItemsSource = CriteriaList;
+
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -46,13 +46,17 @@ namespace ComponentOneTest
             tb1.Text = null;
             targetCell = null;
             rtb.Document.Blocks.Clear();
-            
-            rtb.Document.Blocks.Add(
-                RichTextBoxTools.CreateTable(
-                TableHeaderVMEntity.GetEntities(HeaderList.ToList(), null),
-                TableHeaderVMEntity.GetEntities(CriteriaList.ToList(), null),
-                SpecSheetRadioButton.IsChecked,
-                CriteriaPositionRadioButton.IsChecked));
+
+            var tableContent = TsrTableTools.GetTableContent(
+                        TableHeaderVMEntity.GetEntities(HeaderList.ToList(), null),
+                        TableHeaderVMEntity.GetEntities(CriteriaList.ToList(), null),
+                        SpecSheetRadioButton.IsChecked,
+                        CriteriaPositionRadioButton.IsChecked);
+            if (tableContent == null) return;
+
+            var cellList = TsrTableTools.CreateCellList(tableContent);
+            var table = new TsrTable(tableContent, cellList);
+            rtb.Document.Blocks.Add(table);
         }
 
         private void ContainerDataGrid_SelectedCellsChanged(object sender, 
@@ -66,17 +70,19 @@ namespace ComponentOneTest
         {
             tb1.Text = string.Empty;
             if(targetCell is not null ) targetCell.Background = null;
-            if (rtb.Selection.Cells.Count() > 0)
+            if (rtb.Selection.Cells.Any())
             {
                 if (rtb.Selection.Cells.First() is TsrDataCell cell)
                 {
-                    tb1.Text = cell.Conditions;
+                    tb1.Text = string.Format("Row:{0}, Column:{1}\n{2}",
+                        cell.RowIndex, cell.ColumnIndex, cell.Conditions);
                     cell.Background = System.Windows.Media.Brushes.Red;
                     targetCell = cell;
                 }
-                else
+                else if(rtb.Selection.Cells.First() is TsrHeaderCell cell1)
                 {
-                    tb1.Text = rtb.Selection.Cells.First().GetType().ToString();
+                    tb1.Text = string.Format("Row:{0}, Column:{1}\n{2}",
+                        cell1.RowIndex, cell1.ColumnIndex, cell1.GetType().ToString());
                 }
             }
         }
@@ -124,7 +130,6 @@ namespace ComponentOneTest
 
         private void ContainerButton_Click(object sender, RoutedEventArgs e)
         {
-            if (ContainerTextBox.Text is null) return;
             if (ContainerTextBox.Text == string.Empty) return;
             var id = HeaderList.Count + 1;
             HeaderList.Add(new TableHeaderVMEntity(new TableHeaderEntity(id,ContainerTextBox.Text)));
