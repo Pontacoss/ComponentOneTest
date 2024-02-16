@@ -5,6 +5,7 @@ using ComponentOneTest.Servicies.C1RichTextBox;
 using System.Collections.ObjectModel;
 using ComponentOneTest.ViewModelEntities;
 using ComponentOneTest.Servicies.TableData;
+using C1.WPF.RichTextBox.Documents;
 
 namespace ComponentOneTest
 {
@@ -19,8 +20,8 @@ namespace ComponentOneTest
         public ObservableCollection<TableHeaderVMEntity> CriteriaList
              = new ObservableCollection<TableHeaderVMEntity>();
 
-        private TsrDataCell? targetCell;
-
+        private C1TableCell? targetCell;
+        private System.Windows.Media.Brush targetColor;
         
         public Window2()
         {
@@ -69,21 +70,28 @@ namespace ComponentOneTest
         private void GetDataButton_Click(object sender, RoutedEventArgs e)
         {
             tb1.Text = string.Empty;
-            if(targetCell is not null ) targetCell.Background = null;
+            if (targetCell is not null)
+            {
+                targetCell.Background = targetColor;
+            }
+
             if (rtb.Selection.Cells.Any())
             {
-                if (rtb.Selection.Cells.First() is TsrDataCell cell)
+                var cell = rtb.Selection.Cells.First() as C1TableCell;
+                if (cell is TsrDataCell dataCell)
                 {
                     tb1.Text = string.Format("Row:{0}, Column:{1}\n{2}",
-                        cell.RowIndex, cell.ColumnIndex, cell.Conditions);
-                    cell.Background = System.Windows.Media.Brushes.Red;
-                    targetCell = cell;
+                        dataCell.RowIndex, dataCell.ColumnIndex, dataCell.Conditions);
+
                 }
-                else if(rtb.Selection.Cells.First() is TsrHeaderCell cell1)
+                else if (cell is TsrHeaderCell headerCell)
                 {
                     tb1.Text = string.Format("Row:{0}, Column:{1}\n{2}",
-                        cell1.RowIndex, cell1.ColumnIndex, cell1.GetType().ToString());
+                        headerCell.RowIndex, headerCell.ColumnIndex, headerCell.GetType().ToString());
                 }
+                targetColor = cell.Background;
+                cell.Background = System.Windows.Media.Brushes.Red;
+                targetCell = cell;
             }
         }
 

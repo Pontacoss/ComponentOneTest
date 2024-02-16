@@ -11,7 +11,8 @@ namespace ComponentOneTest.Servicies.C1RichTextBox
     internal static class RichTextBoxTools
     {
         /// <summary>
-        /// C1TableCellの中身(C1Paragraph,C1Run)の追加と罫線、パディング、マージンの設定
+        /// C1TableCellの中身(C1Paragraph,C1Run)の追加と罫線、パディング、
+        /// マージンの設定を行う拡張メソッド
         /// </summary>
         /// <param name="cell"></param>
         /// <param name="name"></param>
